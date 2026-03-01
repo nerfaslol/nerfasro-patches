@@ -1,3 +1,4 @@
 // NerfasRO Patches
 1 nerfasro_20260301_023438_81ed4306.thor
 2 nerfasro_20260301_023711_d922f19d.thor
+3 nerfasro_20260301_025032_d922f19d.thor
