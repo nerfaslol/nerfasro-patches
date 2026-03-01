@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>NerfasRO</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      width: 780px;
+      height: 580px;
+      overflow: hidden;
+      background: #0a0a0f;
+      color: #e0e0e0;
+      user-select: none;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      padding: 20px 24px;
+      border-bottom: 2px solid #e94560;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      color: #e94560;
+    }
+
+    .server-info {
+      font-size: 11px;
+      color: #8892b0;
+      margin-left: auto;
+    }
+
+    /* ── Main content ── */
+    .content {
+      display: flex;
+      height: 440px;
+    }
+
+    /* ── News panel ── */
+    .news {
+      flex: 1;
+      padding: 16px 20px;
+      overflow-y: auto;
+      background: #0d1117;
+    }
+
+    .news h2 {
+      font-size: 14px;
+      color: #e94560;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .news-item {
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      transition: border-color 0.2s;
+    }
+
+    .news-item:hover {
+      border-color: #e94560;
+    }
+
+    .news-item .date {
+      font-size: 10px;
+      color: #e94560;
+      margin-bottom: 4px;
+    }
+
+    .news-item .title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e0e0e0;
+      margin-bottom: 4px;
+    }
+
+    .news-item .desc {
+      font-size: 11px;
+      color: #8892b0;
+      line-height: 1.4;
+    }
+
+    /* ── Side panel ── */
+    .sidebar {
+      width: 220px;
+      background: #0d1117;
+      border-left: 1px solid #21262d;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sidebar h3 {
+      font-size: 12px;
+      color: #8892b0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .link-btn {
+      display: block;
+      padding: 8px 12px;
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 4px;
+      color: #c9d1d9;
+      font-size: 12px;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .link-btn:hover {
+      background: #1a1f2b;
+      border-color: #e94560;
+      color: #fff;
+    }
+
+    .server-status {
+      margin-top: auto;
+      padding: 10px;
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .server-status .label {
+      font-size: 10px;
+      color: #8892b0;
+      text-transform: uppercase;
+    }
+
+    .server-status .status {
+      font-size: 14px;
+      font-weight: 700;
+      color: #3fb950;
+      margin-top: 2px;
+    }
+
+    .server-status .status.offline {
+      color: #e94560;
+    }
+
+    /* ── Footer / Controls ── */
+    .footer {
+      height: 80px;
+      background: #161b22;
+      border-top: 1px solid #21262d;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .progress-container {
+      flex: 1;
+    }
+
+    .progress-text {
+      font-size: 11px;
+      color: #8892b0;
+      margin-bottom: 6px;
+      min-height: 14px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 20px;
+      background: #0d1117;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #21262d;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #e94560 0%, #c62a4f 100%);
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+
+    .progress-bar.ready {
+      background: linear-gradient(90deg, #3fb950 0%, #2ea043 100%);
+      width: 100%;
+    }
+
+    .progress-bar.error {
+      background: linear-gradient(90deg, #f85149 0%, #da3633 100%);
+    }
+
+    .btn-play {
+      width: 140px;
+      height: 48px;
+      background: linear-gradient(135deg, #e94560 0%, #c62a4f 100%);
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .btn-play:enabled {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .btn-play:enabled:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
+    }
+
+    .btn-play:enabled:active {
+      transform: translateY(0);
+    }
+
+    /* ── Scrollbar ── */
+    .news::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .news::-webkit-scrollbar-track {
+      background: #0d1117;
+    }
+
+    .news::-webkit-scrollbar-thumb {
+      background: #21262d;
+      border-radius: 3px;
+    }
+
+    .news::-webkit-scrollbar-thumb:hover {
+      background: #30363d;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">Nerfas<span>RO</span></div>
+    <div class="server-info">Renewal | Pre-Trans | Rates 5x/5x/3x</div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <!-- News -->
+    <div class="news">
+      <h2>Novidades</h2>
+      <div class="news-item">
+        <div class="date">28/02/2026</div>
+        <div class="title">Sistema de Patcher Ativo!</div>
+        <div class="desc">Agora o NerfasRO conta com atualizações automáticas. Basta abrir o patcher antes de jogar!</div>
+      </div>
+      <div class="news-item">
+        <div class="date">25/02/2026</div>
+        <div class="title">Battle Pass v4.0</div>
+        <div class="desc">Novo sistema de Battle Pass com recompensas exclusivas. Confira as novidades no jogo!</div>
+      </div>
+      <div class="news-item">
+        <div class="date">20/02/2026</div>
+        <div class="title">Pesadelo Musical v4.0</div>
+        <div class="desc">Instância reformulada com novos desafios e recompensas. Vila dos Porings também recebeu rework!</div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h3>Links</h3>
+      <a class="link-btn" onclick="openUrl('https://discord.gg/nerfasro')">Discord</a>
+      <a class="link-btn" onclick="openUrl('https://github.com/nerfaslol')">GitHub</a>
+      <a class="link-btn" onclick="external.invoke('setup')" style="display:none">Configurações</a>
+
+      <div class="server-status">
+        <div class="label">Servidor</div>
+        <div class="status" id="server-status">Online</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="progress-container">
+      <div class="progress-text" id="progress-text">Verificando atualizações...</div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+    </div>
+    <button class="btn-play" id="btn-play" disabled onclick="external.invoke('play')">JOGAR</button>
+  </div>
+
+  <script>
+    // ── Inicializar ──
+    // rpatchur chama external.invoke via web_view
+    // Iniciar update automaticamente ao carregar
+    try {
+      external.invoke('start_update');
+    } catch (e) {
+      // Fallback: se external não existe (preview no browser)
+      console.log('external.invoke não disponível (modo preview)');
+      document.getElementById('progress-text').textContent = 'Modo preview - external não disponível';
+    }
+
+    // ── Callbacks do rpatchur ──
+
+    function patchingStatusReady() {
+      var bar = document.getElementById('progress-bar');
+      var text = document.getElementById('progress-text');
+      var btn = document.getElementById('btn-play');
+
+      bar.style.width = '100%';
+      bar.className = 'progress-bar ready';
+      text.textContent = 'Pronto para jogar!';
+      btn.disabled = false;
+    }
+
+    function patchingStatusError(errorMsg) {
+      var bar = document.getElementById('progress-bar');
+      var text = document.getElementById('progress-text');
+
+      bar.style.width = '100%';
+      bar.className = 'progress-bar error';
+      text.textContent = 'Erro: ' + errorMsg;
+    }
+
+    function patchingStatusDownloading(nbDownloaded, nbTotal, bytesPerSec) {
+      var bar = document.getElementById('progress-bar');
+      var text = document.getElementById('progress-text');
+
+      var percentage = nbTotal > 0 ? (100 * nbDownloaded / nbTotal) : 0;
+      bar.style.width = percentage + '%';
+      bar.className = 'progress-bar';
+
+      var speed = formatSpeed(bytesPerSec);
+      text.textContent = 'Baixando: ' + nbDownloaded + '/' + nbTotal + ' patches (' + speed + ')';
+    }
+
+    function patchingStatusInstalling(nbInstalled, nbTotal) {
+      var bar = document.getElementById('progress-bar');
+      var text = document.getElementById('progress-text');
+
+      var percentage = nbTotal > 0 ? (100 * nbInstalled / nbTotal) : 0;
+      bar.style.width = percentage + '%';
+      bar.className = 'progress-bar';
+      text.textContent = 'Instalando: ' + nbInstalled + '/' + nbTotal + ' patches...';
+    }
+
+    function patchingStatusPatchApplied(fileName) {
+      console.log('Patch aplicado: ' + fileName);
+    }
+
+    function notificationInProgress() {
+      document.getElementById('progress-text').textContent = 'Atualização já em andamento...';
+    }
+
+    // ── Helpers ──
+
+    function formatSpeed(bytesPerSec) {
+      if (bytesPerSec > 1048576) {
+        return (bytesPerSec / 1048576).toFixed(1) + ' MB/s';
+      } else if (bytesPerSec > 1024) {
+        return (bytesPerSec / 1024).toFixed(0) + ' KB/s';
+      }
+      return bytesPerSec + ' B/s';
+    }
+
+    function openUrl(url) {
+      try {
+        external.invoke(JSON.stringify({
+          'function': 'open_url',
+          'parameters': { 'url': url }
+        }));
+      } catch (e) {
+        window.open(url, '_blank');
+      }
+    }
+  </script>
+
+</body>
+</html>
