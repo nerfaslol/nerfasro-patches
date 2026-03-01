@@ -6,3 +6,4 @@
 5 nerfasro_20260301_030151_1cc942a2.thor
 6 nerfasro_20260301_031929_f11fa4fc_disk.thor
 7 nerfasro_20260301_031929_f11fa4fc_grf.thor
+8 nerfasro_20260301_053145_01bcbc8e_grf.thor
