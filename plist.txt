@@ -18,3 +18,5 @@
 17 nerfasro_20260302_141308_f3075ad4_disk.thor
 18 nerfasro_20260302_151029_24f697c6_disk.thor
 19 nerfasro_20260302_214518_0ea01f31_grf.thor
+20 nerfasro_20260303_010308_c1878b21_disk.thor
+21 nerfasro_20260303_010308_c1878b21_grf.thor
