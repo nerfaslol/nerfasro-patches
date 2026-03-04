@@ -16,3 +16,5 @@
 15 nerfasro_20260304_050519_2c2f3c0c_grf.thor
 16 nerfasro_20260304_051936_9a0a3fa0_disk.thor
 17 nerfasro_20260304_051936_9a0a3fa0_grf.thor
+18 nerfasro_20260304_054419_7eb74373_disk.thor
+19 nerfasro_20260304_054419_7eb74373_grf.thor
