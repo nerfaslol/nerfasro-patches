@@ -519,10 +519,6 @@
     background-color: #1a0a2e;
   }
 
-  .bg-\[\#2d1b4e\] {
-    background-color: #2d1b4e;
-  }
-
   .bg-nerfas-green {
     background-color: #4ade50;
   }
@@ -862,8 +858,8 @@ html, body {
 }
 
 .glass-light {
-  background: #1e0f3c;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(15, 5, 30, 0.549);
+  border: 1px solid rgba(255, 255, 255, 0.149);
 }
 
 .glass-card {
@@ -956,13 +952,13 @@ html, body {
 .flex-col.gap-2 > *:first-child { margin-top: 0; }
 .flex-col.gap-3 > * { margin-top: 0.75rem; }
 .flex-col.gap-3 > *:first-child { margin-top: 0; }
-/* IE11: glass fallback (no backdrop-filter) */
+/* IE11: glass fallback (no backdrop-filter, semi-transparent over bg image) */
 .glass-light {
-    background: rgb(30, 15, 60) !important;
+    background: rgba(15, 5, 30, 0.55) !important;
     backdrop-filter: none !important;
 }
 .glass-card {
-    background: rgb(26, 13, 52) !important;
+    background: rgba(15, 5, 30, 0.5) !important;
     backdrop-filter: none !important;
 }
 /* IE11: preserve margin-left: auto (gap fallback overrides it) */
@@ -9056,7 +9052,7 @@ function Footer(_ref2) {
   return /* @__PURE__ */jsxRuntimeExports.jsxs("footer", {
     className: "px-6 py-3.5 flex flex-col gap-2",
     style: {
-      background: "linear-gradient(135deg, #c850c0 0%, #8e24aa 30%, #6a1b9a 50%, #4a148c 70%, #311b92 100%)",
+      background: "rgba(15, 5, 30, 0.6)",
       borderTop: "1px solid rgba(255, 255, 255, 0.15)"
     },
     children: [/* @__PURE__ */jsxRuntimeExports.jsxs("div", {
