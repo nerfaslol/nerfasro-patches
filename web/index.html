@@ -33,85 +33,15 @@ if(!Array.prototype.find){Array.prototype.find=function(fn,t){for(var i=0;i<this
 if(!Array.prototype.findIndex){Array.prototype.findIndex=function(fn,t){for(var i=0;i<this.length;i++){if(fn.call(t,this[i],i,this))return i}return-1}}
 if(!String.prototype.startsWith){String.prototype.startsWith=function(s,p){p=p||0;return this.indexOf(s,p)===p}}
 if(!String.prototype.includes){String.prototype.includes=function(s,p){return this.indexOf(s,p||0)!==-1}}
+if(typeof NodeList!=="undefined"&&!NodeList.prototype.forEach){NodeList.prototype.forEach=Array.prototype.forEach}
+if(typeof HTMLCollection!=="undefined"&&!HTMLCollection.prototype.forEach){HTMLCollection.prototype.forEach=Array.prototype.forEach}
 if(typeof queueMicrotask==="undefined"){window.queueMicrotask=function(fn){Promise.resolve().then(fn)}}
 if(typeof globalThis==="undefined"){window.globalThis=window}
 if(!Object.entries){Object.entries=function(o){var r=[];for(var k in o){if(Object.prototype.hasOwnProperty.call(o,k))r.push([k,o[k]])}return r}}
 if(!Object.values){Object.values=function(o){var r=[];for(var k in o){if(Object.prototype.hasOwnProperty.call(o,k))r.push(o[k])}return r}}
 if(!Object.keys){Object.keys=function(o){var r=[];for(var k in o){if(Object.prototype.hasOwnProperty.call(o,k))r.push(k)}return r}}
 })();</script>
-<script>"use strict";
-
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-(function polyfill() {
-  var relList = document.createElement("link").relList;
-  if (relList && relList.supports && relList.supports("modulepreload")) {
-    return;
-  }
-  var _iterator = _createForOfIteratorHelper(document.querySelectorAll('link[rel="modulepreload"]')),
-    _step;
-  try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var link = _step.value;
-      processPreload(link);
-    }
-  } catch (err) {
-    _iterator.e(err);
-  } finally {
-    _iterator.f();
-  }
-  new MutationObserver(function (mutations) {
-    var _iterator2 = _createForOfIteratorHelper(mutations),
-      _step2;
-    try {
-      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-        var mutation = _step2.value;
-        if (mutation.type !== "childList") {
-          continue;
-        }
-        var _iterator3 = _createForOfIteratorHelper(mutation.addedNodes),
-          _step3;
-        try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var node = _step3.value;
-            if (node.tagName === "LINK" && node.rel === "modulepreload") processPreload(node);
-          }
-        } catch (err) {
-          _iterator3.e(err);
-        } finally {
-          _iterator3.f();
-        }
-      }
-    } catch (err) {
-      _iterator2.e(err);
-    } finally {
-      _iterator2.f();
-    }
-  }).observe(document, {
-    childList: true,
-    subtree: true
-  });
-  function getFetchOpts(link) {
-    var fetchOpts = {};
-    if (link.integrity) fetchOpts.integrity = link.integrity;
-    if (link.referrerPolicy) fetchOpts.referrerPolicy = link.referrerPolicy;
-    if (link.crossOrigin === "use-credentials") fetchOpts.credentials = "include";else if (link.crossOrigin === "anonymous") fetchOpts.credentials = "omit";else fetchOpts.credentials = "same-origin";
-    return fetchOpts;
-  }
-  function processPreload(link) {
-    if (link.ep) return;
-    link.ep = true;
-    var fetchOpts = getFetchOpts(link);
-    fetch(link.href, fetchOpts);
-  }
-})();
-function getDefaultExportFromCjs(x) {
+<script>function getDefaultExportFromCjs(x) {
   return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
 }
 var jsxRuntime = {
@@ -135,20 +65,20 @@ var hasRequiredReact_production_min;
 function requireReact_production_min() {
   if (hasRequiredReact_production_min) return react_production_min;
   hasRequiredReact_production_min = 1;
-  var l = Symbol["for"]("react.element"),
-    n = Symbol["for"]("react.portal"),
-    p = Symbol["for"]("react.fragment"),
-    q = Symbol["for"]("react.strict_mode"),
-    r = Symbol["for"]("react.profiler"),
-    t = Symbol["for"]("react.provider"),
-    u = Symbol["for"]("react.context"),
-    v = Symbol["for"]("react.forward_ref"),
-    w = Symbol["for"]("react.suspense"),
-    x = Symbol["for"]("react.memo"),
-    y = Symbol["for"]("react.lazy"),
+  var l = Symbol.for("react.element"),
+    n = Symbol.for("react.portal"),
+    p = Symbol.for("react.fragment"),
+    q = Symbol.for("react.strict_mode"),
+    r = Symbol.for("react.profiler"),
+    t = Symbol.for("react.provider"),
+    u = Symbol.for("react.context"),
+    v = Symbol.for("react.forward_ref"),
+    w = Symbol.for("react.suspense"),
+    x = Symbol.for("react.memo"),
+    y = Symbol.for("react.lazy"),
     z = Symbol.iterator;
   function A(a) {
-    if (null === a || "object" !== _typeof(a)) return null;
+    if (null === a || "object" !== typeof a) return null;
     a = z && a[z] || a["@@iterator"];
     return "function" === typeof a ? a : null;
   }
@@ -170,7 +100,7 @@ function requireReact_production_min() {
   }
   E.prototype.isReactComponent = {};
   E.prototype.setState = function (a, b) {
-    if ("object" !== _typeof(a) && "function" !== typeof a && null != a) throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");
+    if ("object" !== typeof a && "function" !== typeof a && null != a) throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");
     this.updater.enqueueSetState(this, a, b, "setState");
   };
   E.prototype.forceUpdate = function (a) {
@@ -231,7 +161,7 @@ function requireReact_production_min() {
     };
   }
   function O(a) {
-    return "object" === _typeof(a) && null !== a && a.$$typeof === l;
+    return "object" === typeof a && null !== a && a.$$typeof === l;
   }
   function escape(a) {
     var b = {
@@ -244,10 +174,10 @@ function requireReact_production_min() {
   }
   var P = /\/+/g;
   function Q(a, b) {
-    return "object" === _typeof(a) && null !== a && null != a.key ? escape("" + a.key) : b.toString(36);
+    return "object" === typeof a && null !== a && null != a.key ? escape("" + a.key) : b.toString(36);
   }
   function R(a, b, e, d, c) {
-    var k = _typeof(a);
+    var k = typeof a;
     if ("undefined" === k || "boolean" === k) a = null;
     var h = false;
     if (null === a) h = true;else switch (k) {
@@ -294,7 +224,7 @@ function requireReact_production_min() {
       });
       -1 === a._status && (a._status = 0, a._result = b);
     }
-    if (1 === a._status) return a._result["default"];
+    if (1 === a._status) return a._result.default;
     throw a._result;
   }
   var U = {
@@ -501,8 +431,8 @@ function requireReactJsxRuntime_production_min() {
   if (hasRequiredReactJsxRuntime_production_min) return reactJsxRuntime_production_min;
   hasRequiredReactJsxRuntime_production_min = 1;
   var f = requireReact(),
-    k = Symbol["for"]("react.element"),
-    l = Symbol["for"]("react.fragment"),
+    k = Symbol.for("react.element"),
+    l = Symbol.for("react.fragment"),
     m = Object.prototype.hasOwnProperty,
     n = f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,
     p = {
@@ -602,7 +532,7 @@ function requireScheduler_production_min() {
       var c = a.sortIndex - b.sortIndex;
       return 0 !== c ? c : a.id - b.id;
     }
-    if ("object" === (typeof performance === "undefined" ? "undefined" : _typeof(performance)) && "function" === typeof performance.now) {
+    if ("object" === typeof performance && "function" === typeof performance.now) {
       var l = performance;
       exports$1.unstable_now = function () {
         return l.now();
@@ -773,7 +703,7 @@ function requireScheduler_production_min() {
     };
     exports$1.unstable_scheduleCallback = function (a, b, c) {
       var d = exports$1.unstable_now();
-      "object" === _typeof(c) && null !== c ? (c = c.delay, c = "number" === typeof c && 0 < c ? d + c : d) : c = d;
+      "object" === typeof c && null !== c ? (c = c.delay, c = "number" === typeof c && 0 < c ? d + c : d) : c = d;
       switch (a) {
         case 1:
           var e = -1;
@@ -870,7 +800,7 @@ function requireReactDom_production_min() {
   }
   function pa(a, b, c, d) {
     if (null !== c && 0 === c.type) return false;
-    switch (_typeof(b)) {
+    switch (typeof b) {
       case "function":
       case "symbol":
         return true;
@@ -965,22 +895,22 @@ function requireReactDom_production_min() {
     if (null !== e ? 0 !== e.type : d || !(2 < b.length) || "o" !== b[0] && "O" !== b[0] || "n" !== b[1] && "N" !== b[1]) qa(b, c, e, d) && (c = null), d || null === e ? oa(b) && (null === c ? a.removeAttribute(b) : a.setAttribute(b, "" + c)) : e.mustUseProperty ? a[e.propertyName] = null === c ? 3 === e.type ? false : "" : c : (b = e.attributeName, d = e.attributeNamespace, null === c ? a.removeAttribute(b) : (e = e.type, c = 3 === e || 4 === e && true === c ? "" : "" + c, d ? a.setAttributeNS(d, b, c) : a.setAttribute(b, c)));
   }
   var ua = aa.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
-    va = Symbol["for"]("react.element"),
-    wa = Symbol["for"]("react.portal"),
-    ya = Symbol["for"]("react.fragment"),
-    za = Symbol["for"]("react.strict_mode"),
-    Aa = Symbol["for"]("react.profiler"),
-    Ba = Symbol["for"]("react.provider"),
-    Ca = Symbol["for"]("react.context"),
-    Da = Symbol["for"]("react.forward_ref"),
-    Ea = Symbol["for"]("react.suspense"),
-    Fa = Symbol["for"]("react.suspense_list"),
-    Ga = Symbol["for"]("react.memo"),
-    Ha = Symbol["for"]("react.lazy");
-  var Ia = Symbol["for"]("react.offscreen");
+    va = Symbol.for("react.element"),
+    wa = Symbol.for("react.portal"),
+    ya = Symbol.for("react.fragment"),
+    za = Symbol.for("react.strict_mode"),
+    Aa = Symbol.for("react.profiler"),
+    Ba = Symbol.for("react.provider"),
+    Ca = Symbol.for("react.context"),
+    Da = Symbol.for("react.forward_ref"),
+    Ea = Symbol.for("react.suspense"),
+    Fa = Symbol.for("react.suspense_list"),
+    Ga = Symbol.for("react.memo"),
+    Ha = Symbol.for("react.lazy");
+  var Ia = Symbol.for("react.offscreen");
   var Ja = Symbol.iterator;
   function Ka(a) {
-    if (null === a || "object" !== _typeof(a)) return null;
+    if (null === a || "object" !== typeof a) return null;
     a = Ja && a[Ja] || a["@@iterator"];
     return "function" === typeof a ? a : null;
   }
@@ -1009,7 +939,7 @@ function requireReactDom_production_min() {
           set: function set() {
             throw Error();
           }
-        }), "object" === (typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) && Reflect.construct) {
+        }), "object" === typeof Reflect && Reflect.construct) {
           try {
             Reflect.construct(b, []);
           } catch (l) {
@@ -1091,7 +1021,7 @@ function requireReactDom_production_min() {
       case Fa:
         return "SuspenseList";
     }
-    if ("object" === _typeof(a)) switch (a.$$typeof) {
+    if ("object" === typeof a) switch (a.$$typeof) {
       case Ca:
         return (a.displayName || "Context") + ".Consumer";
       case Ba:
@@ -1163,7 +1093,7 @@ function requireReactDom_production_min() {
     return null;
   }
   function Sa(a) {
-    switch (_typeof(a)) {
+    switch (typeof a) {
       case "boolean":
       case "number":
       case "string":
@@ -1474,9 +1404,9 @@ function requireReactDom_production_min() {
       if (tb[a] && (null != b.children || null != b.dangerouslySetInnerHTML)) throw Error(p(137, a));
       if (null != b.dangerouslySetInnerHTML) {
         if (null != b.children) throw Error(p(60));
-        if ("object" !== _typeof(b.dangerouslySetInnerHTML) || !("__html" in b.dangerouslySetInnerHTML)) throw Error(p(61));
+        if ("object" !== typeof b.dangerouslySetInnerHTML || !("__html" in b.dangerouslySetInnerHTML)) throw Error(p(61));
       }
-      if (null != b.style && "object" !== _typeof(b.style)) throw Error(p(62));
+      if (null != b.style && "object" !== typeof b.style) throw Error(p(62));
     }
   }
   function vb(a, b) {
@@ -1562,7 +1492,7 @@ function requireReactDom_production_min() {
         a = false;
     }
     if (a) return null;
-    if (c && "function" !== typeof c) throw Error(p(231, b, _typeof(c)));
+    if (c && "function" !== typeof c) throw Error(p(231, b, typeof c));
     return c;
   }
   var Lb = false;
@@ -1615,9 +1545,9 @@ function requireReactDom_production_min() {
   function Vb(a) {
     var b = a,
       c = a;
-    if (a.alternate) for (; b["return"];) b = b["return"];else {
+    if (a.alternate) for (; b.return;) b = b.return;else {
       a = b;
-      do b = a, 0 !== (b.flags & 4098) && (c = b["return"]), a = b["return"]; while (a);
+      do b = a, 0 !== (b.flags & 4098) && (c = b.return), a = b.return; while (a);
     }
     return 3 === b.tag ? c : null;
   }
@@ -1640,11 +1570,11 @@ function requireReactDom_production_min() {
       return b !== a ? null : a;
     }
     for (var c = a, d = b;;) {
-      var e = c["return"];
+      var e = c.return;
       if (null === e) break;
       var f = e.alternate;
       if (null === f) {
-        d = e["return"];
+        d = e.return;
         if (null !== d) {
           c = d;
           continue;
@@ -1659,7 +1589,7 @@ function requireReactDom_production_min() {
         }
         throw Error(p(188));
       }
-      if (c["return"] !== d["return"]) c = e, d = f;else {
+      if (c.return !== d.return) c = e, d = f;else {
         for (var g = false, h = e.child; h;) {
           if (h === c) {
             g = true;
@@ -1942,11 +1872,11 @@ function requireReactDom_production_min() {
         break;
       case "pointerover":
       case "pointerout":
-        Oc["delete"](b.pointerId);
+        Oc.delete(b.pointerId);
         break;
       case "gotpointercapture":
       case "lostpointercapture":
-        Pc["delete"](b.pointerId);
+        Pc.delete(b.pointerId);
     }
   }
   function Tc(a, b, c, d, e, f) {
@@ -2016,7 +1946,7 @@ function requireReactDom_production_min() {
     return true;
   }
   function Zc(a, b, c) {
-    Xc(a) && c["delete"](b);
+    Xc(a) && c.delete(b);
   }
   function $c() {
     Jc = false;
@@ -2478,7 +2408,7 @@ function requireReactDom_production_min() {
   }
   function he(a) {
     a = a.detail;
-    return "object" === _typeof(a) && "data" in a ? a.data : null;
+    return "object" === typeof a && "data" in a ? a.data : null;
   }
   var ie = false;
   function je(a, b) {
@@ -2502,7 +2432,7 @@ function requireReactDom_production_min() {
         return null;
       case "keypress":
         if (!(b.ctrlKey || b.altKey || b.metaKey) || b.ctrlKey && b.altKey) {
-          if (b["char"] && 1 < b["char"].length) return b["char"];
+          if (b.char && 1 < b.char.length) return b.char;
           if (b.which) return String.fromCharCode(b.which);
         }
         return null;
@@ -2595,7 +2525,7 @@ function requireReactDom_production_min() {
   var He = "function" === typeof Object.is ? Object.is : Ge;
   function Ie(a, b) {
     if (He(a, b)) return true;
-    if ("object" !== _typeof(a) || null === a || "object" !== _typeof(b) || null === b) return false;
+    if ("object" !== typeof a || null === a || "object" !== typeof b || null === b) return false;
     var c = Object.keys(a),
       d = Object.keys(b);
     if (c.length !== d.length) return false;
@@ -2845,12 +2775,12 @@ function requireReactDom_production_min() {
       if (3 === g || 4 === g) {
         var h = d.stateNode.containerInfo;
         if (h === e || 8 === h.nodeType && h.parentNode === e) break;
-        if (4 === g) for (g = d["return"]; null !== g;) {
+        if (4 === g) for (g = d.return; null !== g;) {
           var k = g.tag;
           if (3 === k || 4 === k) {
             if (k = g.stateNode.containerInfo, k === e || 8 === k.nodeType && k.parentNode === e) return;
           }
-          g = g["return"];
+          g = g.return;
         }
         for (; null !== h;) {
           g = Wc(h);
@@ -2863,7 +2793,7 @@ function requireReactDom_production_min() {
           h = h.parentNode;
         }
       }
-      d = d["return"];
+      d = d.return;
     }
     Jb(function () {
       var d2 = f,
@@ -2959,7 +2889,7 @@ function requireReactDom_production_min() {
             var F = u.stateNode;
             5 === u.tag && null !== F && (u = F, null !== x && (F = Kb(w, x), null != F && t.push(tf(w, F, u))));
             if (J) break;
-            w = w["return"];
+            w = w.return;
           }
           0 < t.length && (h2 = new k2(h2, n, null, c, e2), g2.push({
             event: h2,
@@ -3090,13 +3020,13 @@ function requireReactDom_production_min() {
       var e = a,
         f = e.stateNode;
       5 === e.tag && null !== f && (e = f, f = Kb(a, c), null != f && d.unshift(tf(a, f, e)), f = Kb(a, b), null != f && d.push(tf(a, f, e)));
-      a = a["return"];
+      a = a.return;
     }
     return d;
   }
   function vf(a) {
     if (null === a) return null;
-    do a = a["return"]; while (a && 5 !== a.tag);
+    do a = a.return; while (a && 5 !== a.tag);
     return a ? a : null;
   }
   function wf(a, b, c, d, e) {
@@ -3106,7 +3036,7 @@ function requireReactDom_production_min() {
         l = h.stateNode;
       if (null !== k && k === d) break;
       5 === h.tag && null !== l && (h = l, e ? (k = Kb(c, f), null != k && g.unshift(tf(c, k, h))) : e || (k = Kb(c, f), null != k && g.push(tf(c, k, h))));
-      c = c["return"];
+      c = c.return;
     }
     0 !== g.length && a.push({
       event: b,
@@ -3126,13 +3056,13 @@ function requireReactDom_production_min() {
   var Cf = null,
     Df = null;
   function Ef(a, b) {
-    return "textarea" === a || "noscript" === a || "string" === typeof b.children || "number" === typeof b.children || "object" === _typeof(b.dangerouslySetInnerHTML) && null !== b.dangerouslySetInnerHTML && null != b.dangerouslySetInnerHTML.__html;
+    return "textarea" === a || "noscript" === a || "string" === typeof b.children || "number" === typeof b.children || "object" === typeof b.dangerouslySetInnerHTML && null !== b.dangerouslySetInnerHTML && null != b.dangerouslySetInnerHTML.__html;
   }
   var Ff = "function" === typeof setTimeout ? setTimeout : void 0,
     Gf = "function" === typeof clearTimeout ? clearTimeout : void 0,
     Hf = "function" === typeof Promise ? Promise : void 0,
     Jf = "function" === typeof queueMicrotask ? queueMicrotask : "undefined" !== typeof Hf ? function (a) {
-      return Hf.resolve(null).then(a)["catch"](If);
+      return Hf.resolve(null).then(a).catch(If);
     } : Ff;
   function If(a) {
     setTimeout(function () {
@@ -3349,7 +3279,7 @@ function requireReactDom_production_min() {
     } else rg = 1 << f | c << e | d, sg = a;
   }
   function vg(a) {
-    null !== a["return"] && (tg(a, 1), ug(a, 1, 0));
+    null !== a.return && (tg(a, 1), ug(a, 1, 0));
   }
   function wg(a) {
     for (; a === mg;) mg = kg[--lg], kg[lg] = null, ng = kg[--lg], kg[lg] = null;
@@ -3363,7 +3293,7 @@ function requireReactDom_production_min() {
     var c = Bg(5, null, null, 0);
     c.elementType = "DELETED";
     c.stateNode = b;
-    c["return"] = a;
+    c.return = a;
     b = a.deletions;
     null === b ? (a.deletions = [c], a.flags |= 16) : b.push(c);
   }
@@ -3383,7 +3313,7 @@ function requireReactDom_production_min() {
           dehydrated: b,
           treeContext: c,
           retryLane: 1073741824
-        }, c = Bg(18, null, null, 0), c.stateNode = b, c["return"] = a, a.child = c, xg = a, yg = null, true) : false;
+        }, c = Bg(18, null, null, 0), c.stateNode = b, c.return = a, a.child = c, xg = a, yg = null, true) : false;
       default:
         return false;
     }
@@ -3411,7 +3341,7 @@ function requireReactDom_production_min() {
     }
   }
   function Fg(a) {
-    for (a = a["return"]; null !== a && 5 !== a.tag && 3 !== a.tag && 13 !== a.tag;) a = a["return"];
+    for (a = a.return; null !== a && 5 !== a.tag && 3 !== a.tag && 13 !== a.tag;) a = a.return;
     xg = a;
   }
   function Gg(a) {
@@ -3461,7 +3391,7 @@ function requireReactDom_production_min() {
   var Kg = ua.ReactCurrentBatchConfig;
   function Lg(a, b, c) {
     a = c.ref;
-    if (null !== a && "function" !== typeof a && "object" !== _typeof(a)) {
+    if (null !== a && "function" !== typeof a && "object" !== typeof a) {
       if (c._owner) {
         c = c._owner;
         if (c) {
@@ -3527,45 +3457,45 @@ function requireReactDom_production_min() {
       return b2;
     }
     function h(a2, b2, c2, d2) {
-      if (null === b2 || 6 !== b2.tag) return b2 = Qg(c2, a2.mode, d2), b2["return"] = a2, b2;
+      if (null === b2 || 6 !== b2.tag) return b2 = Qg(c2, a2.mode, d2), b2.return = a2, b2;
       b2 = e(b2, c2);
-      b2["return"] = a2;
+      b2.return = a2;
       return b2;
     }
     function k(a2, b2, c2, d2) {
       var f2 = c2.type;
       if (f2 === ya) return m(a2, b2, c2.props.children, d2, c2.key);
-      if (null !== b2 && (b2.elementType === f2 || "object" === _typeof(f2) && null !== f2 && f2.$$typeof === Ha && Ng(f2) === b2.type)) return d2 = e(b2, c2.props), d2.ref = Lg(a2, b2, c2), d2["return"] = a2, d2;
+      if (null !== b2 && (b2.elementType === f2 || "object" === typeof f2 && null !== f2 && f2.$$typeof === Ha && Ng(f2) === b2.type)) return d2 = e(b2, c2.props), d2.ref = Lg(a2, b2, c2), d2.return = a2, d2;
       d2 = Rg(c2.type, c2.key, c2.props, null, a2.mode, d2);
       d2.ref = Lg(a2, b2, c2);
-      d2["return"] = a2;
+      d2.return = a2;
       return d2;
     }
     function l(a2, b2, c2, d2) {
-      if (null === b2 || 4 !== b2.tag || b2.stateNode.containerInfo !== c2.containerInfo || b2.stateNode.implementation !== c2.implementation) return b2 = Sg(c2, a2.mode, d2), b2["return"] = a2, b2;
+      if (null === b2 || 4 !== b2.tag || b2.stateNode.containerInfo !== c2.containerInfo || b2.stateNode.implementation !== c2.implementation) return b2 = Sg(c2, a2.mode, d2), b2.return = a2, b2;
       b2 = e(b2, c2.children || []);
-      b2["return"] = a2;
+      b2.return = a2;
       return b2;
     }
     function m(a2, b2, c2, d2, f2) {
-      if (null === b2 || 7 !== b2.tag) return b2 = Tg(c2, a2.mode, d2, f2), b2["return"] = a2, b2;
+      if (null === b2 || 7 !== b2.tag) return b2 = Tg(c2, a2.mode, d2, f2), b2.return = a2, b2;
       b2 = e(b2, c2);
-      b2["return"] = a2;
+      b2.return = a2;
       return b2;
     }
     function q(a2, b2, c2) {
-      if ("string" === typeof b2 && "" !== b2 || "number" === typeof b2) return b2 = Qg("" + b2, a2.mode, c2), b2["return"] = a2, b2;
-      if ("object" === _typeof(b2) && null !== b2) {
+      if ("string" === typeof b2 && "" !== b2 || "number" === typeof b2) return b2 = Qg("" + b2, a2.mode, c2), b2.return = a2, b2;
+      if ("object" === typeof b2 && null !== b2) {
         switch (b2.$$typeof) {
           case va:
-            return c2 = Rg(b2.type, b2.key, b2.props, null, a2.mode, c2), c2.ref = Lg(a2, null, b2), c2["return"] = a2, c2;
+            return c2 = Rg(b2.type, b2.key, b2.props, null, a2.mode, c2), c2.ref = Lg(a2, null, b2), c2.return = a2, c2;
           case wa:
-            return b2 = Sg(b2, a2.mode, c2), b2["return"] = a2, b2;
+            return b2 = Sg(b2, a2.mode, c2), b2.return = a2, b2;
           case Ha:
             var d2 = b2._init;
             return q(a2, d2(b2._payload), c2);
         }
-        if (eb(b2) || Ka(b2)) return b2 = Tg(b2, a2.mode, c2, null), b2["return"] = a2, b2;
+        if (eb(b2) || Ka(b2)) return b2 = Tg(b2, a2.mode, c2, null), b2.return = a2, b2;
         Mg(a2, b2);
       }
       return null;
@@ -3573,7 +3503,7 @@ function requireReactDom_production_min() {
     function r(a2, b2, c2, d2) {
       var e2 = null !== b2 ? b2.key : null;
       if ("string" === typeof c2 && "" !== c2 || "number" === typeof c2) return null !== e2 ? null : h(a2, b2, "" + c2, d2);
-      if ("object" === _typeof(c2) && null !== c2) {
+      if ("object" === typeof c2 && null !== c2) {
         switch (c2.$$typeof) {
           case va:
             return c2.key === e2 ? k(a2, b2, c2, d2) : null;
@@ -3589,7 +3519,7 @@ function requireReactDom_production_min() {
     }
     function y(a2, b2, c2, d2, e2) {
       if ("string" === typeof d2 && "" !== d2 || "number" === typeof d2) return a2 = a2.get(c2) || null, h(b2, a2, "" + d2, e2);
-      if ("object" === _typeof(d2) && null !== d2) {
+      if ("object" === typeof d2 && null !== d2) {
         switch (d2.$$typeof) {
           case va:
             return a2 = a2.get(null === d2.key ? c2 : d2.key) || null, k(b2, a2, d2, e2);
@@ -3624,7 +3554,7 @@ function requireReactDom_production_min() {
         I && tg(e2, w);
         return l2;
       }
-      for (u = d(e2, u); w < h2.length; w++) x = y(u, e2, w, h2[w], k2), null !== x && (a && null !== x.alternate && u["delete"](null === x.key ? w : x.key), g2 = f(x, g2, w), null === m2 ? l2 = x : m2.sibling = x, m2 = x);
+      for (u = d(e2, u); w < h2.length; w++) x = y(u, e2, w, h2[w], k2), null !== x && (a && null !== x.alternate && u.delete(null === x.key ? w : x.key), g2 = f(x, g2, w), null === m2 ? l2 = x : m2.sibling = x, m2 = x);
       a && u.forEach(function (a2) {
         return b(e2, a2);
       });
@@ -3655,7 +3585,7 @@ function requireReactDom_production_min() {
         I && tg(e2, w);
         return l2;
       }
-      for (m2 = d(e2, m2); !n2.done; w++, n2 = h2.next()) n2 = y(m2, e2, w, n2.value, k2), null !== n2 && (a && null !== n2.alternate && m2["delete"](null === n2.key ? w : n2.key), g2 = f(n2, g2, w), null === u ? l2 = n2 : u.sibling = n2, u = n2);
+      for (m2 = d(e2, m2); !n2.done; w++, n2 = h2.next()) n2 = y(m2, e2, w, n2.value, k2), null !== n2 && (a && null !== n2.alternate && m2.delete(null === n2.key ? w : n2.key), g2 = f(n2, g2, w), null === u ? l2 = n2 : u.sibling = n2, u = n2);
       a && m2.forEach(function (a2) {
         return b(e2, a2);
       });
@@ -3663,8 +3593,8 @@ function requireReactDom_production_min() {
       return l2;
     }
     function J(a2, d2, f2, h2) {
-      "object" === _typeof(f2) && null !== f2 && f2.type === ya && null === f2.key && (f2 = f2.props.children);
-      if ("object" === _typeof(f2) && null !== f2) {
+      "object" === typeof f2 && null !== f2 && f2.type === ya && null === f2.key && (f2 = f2.props.children);
+      if ("object" === typeof f2 && null !== f2) {
         switch (f2.$$typeof) {
           case va:
             a: {
@@ -3675,15 +3605,15 @@ function requireReactDom_production_min() {
                     if (7 === l2.tag) {
                       c(a2, l2.sibling);
                       d2 = e(l2, f2.props.children);
-                      d2["return"] = a2;
+                      d2.return = a2;
                       a2 = d2;
                       break a;
                     }
-                  } else if (l2.elementType === k2 || "object" === _typeof(k2) && null !== k2 && k2.$$typeof === Ha && Ng(k2) === l2.type) {
+                  } else if (l2.elementType === k2 || "object" === typeof k2 && null !== k2 && k2.$$typeof === Ha && Ng(k2) === l2.type) {
                     c(a2, l2.sibling);
                     d2 = e(l2, f2.props);
                     d2.ref = Lg(a2, l2, f2);
-                    d2["return"] = a2;
+                    d2.return = a2;
                     a2 = d2;
                     break a;
                   }
@@ -3692,7 +3622,7 @@ function requireReactDom_production_min() {
                 } else b(a2, l2);
                 l2 = l2.sibling;
               }
-              f2.type === ya ? (d2 = Tg(f2.props.children, a2.mode, h2, f2.key), d2["return"] = a2, a2 = d2) : (h2 = Rg(f2.type, f2.key, f2.props, null, a2.mode, h2), h2.ref = Lg(a2, d2, f2), h2["return"] = a2, a2 = h2);
+              f2.type === ya ? (d2 = Tg(f2.props.children, a2.mode, h2, f2.key), d2.return = a2, a2 = d2) : (h2 = Rg(f2.type, f2.key, f2.props, null, a2.mode, h2), h2.ref = Lg(a2, d2, f2), h2.return = a2, a2 = h2);
             }
             return g(a2);
           case wa:
@@ -3702,7 +3632,7 @@ function requireReactDom_production_min() {
                   if (4 === d2.tag && d2.stateNode.containerInfo === f2.containerInfo && d2.stateNode.implementation === f2.implementation) {
                     c(a2, d2.sibling);
                     d2 = e(d2, f2.children || []);
-                    d2["return"] = a2;
+                    d2.return = a2;
                     a2 = d2;
                     break a;
                   } else {
@@ -3713,7 +3643,7 @@ function requireReactDom_production_min() {
                 d2 = d2.sibling;
               }
               d2 = Sg(f2, a2.mode, h2);
-              d2["return"] = a2;
+              d2.return = a2;
               a2 = d2;
             }
             return g(a2);
@@ -3724,7 +3654,7 @@ function requireReactDom_production_min() {
         if (Ka(f2)) return t(a2, d2, f2, h2);
         Mg(a2, f2);
       }
-      return "string" === typeof f2 && "" !== f2 || "number" === typeof f2 ? (f2 = "" + f2, null !== d2 && 6 === d2.tag ? (c(a2, d2.sibling), d2 = e(d2, f2), d2["return"] = a2, a2 = d2) : (c(a2, d2), d2 = Qg(f2, a2.mode, h2), d2["return"] = a2, a2 = d2), g(a2)) : c(a2, d2);
+      return "string" === typeof f2 && "" !== f2 || "number" === typeof f2 ? (f2 = "" + f2, null !== d2 && 6 === d2.tag ? (c(a2, d2.sibling), d2 = e(d2, f2), d2.return = a2, a2 = d2) : (c(a2, d2), d2 = Qg(f2, a2.mode, h2), d2.return = a2, a2 = d2), g(a2)) : c(a2, d2);
     }
     return J;
   }
@@ -3747,7 +3677,7 @@ function requireReactDom_production_min() {
       var d = a.alternate;
       (a.childLanes & b) !== b ? (a.childLanes |= b, null !== d && (d.childLanes |= b)) : null !== d && (d.childLanes & b) !== b && (d.childLanes |= b);
       if (a === c) break;
-      a = a["return"];
+      a = a.return;
     }
   }
   function ch(a, b) {
@@ -3787,7 +3717,7 @@ function requireReactDom_production_min() {
     var c = a.alternate;
     null !== c && (c.lanes |= b);
     c = a;
-    for (a = a["return"]; null !== a;) a.childLanes |= b, c = a.alternate, null !== c && (c.childLanes |= b), c = a, a = a["return"];
+    for (a = a.return; null !== a;) a.childLanes |= b, c = a.alternate, null !== c && (c.childLanes |= b), c = a, a = a.return;
     return 3 === c.tag ? c.stateNode : null;
   }
   var jh = false;
@@ -4031,16 +3961,16 @@ function requireReactDom_production_min() {
       } else if (19 === b.tag && void 0 !== b.memoizedProps.revealOrder) {
         if (0 !== (b.flags & 128)) return b;
       } else if (null !== b.child) {
-        b.child["return"] = b;
+        b.child.return = b;
         b = b.child;
         continue;
       }
       if (b === a) break;
       for (; null === b.sibling;) {
-        if (null === b["return"] || b["return"] === a) return null;
-        b = b["return"];
+        if (null === b.return || b.return === a) return null;
+        b = b.return;
       }
-      b.sibling["return"] = b["return"];
+      b.sibling.return = b.return;
       b = b.sibling;
     }
     return null;
@@ -4681,7 +4611,7 @@ function requireReactDom_production_min() {
     var d = false,
       e = Vf;
     var f = b.contextType;
-    "object" === _typeof(f) && null !== f ? f = eh(f) : (e = Zf(b) ? Xf : H.current, d = b.contextTypes, f = (d = null !== d && void 0 !== d) ? Yf(a, e) : Vf);
+    "object" === typeof f && null !== f ? f = eh(f) : (e = Zf(b) ? Xf : H.current, d = b.contextTypes, f = (d = null !== d && void 0 !== d) ? Yf(a, e) : Vf);
     b = new b(c, f);
     a.memoizedState = null !== b.state && void 0 !== b.state ? b.state : null;
     b.updater = Ei;
@@ -4703,7 +4633,7 @@ function requireReactDom_production_min() {
     e.refs = {};
     kh(a);
     var f = b.contextType;
-    "object" === _typeof(f) && null !== f ? e.context = eh(f) : (f = Zf(b) ? Xf : H.current, e.context = Yf(a, f));
+    "object" === typeof f && null !== f ? e.context = eh(f) : (f = Zf(b) ? Xf : H.current, e.context = Yf(a, f));
     e.state = a.memoizedState;
     f = b.getDerivedStateFromProps;
     "function" === typeof f && (Di(a, b, f, c), e.state = a.memoizedState);
@@ -4714,7 +4644,7 @@ function requireReactDom_production_min() {
     try {
       var c = "",
         d = b;
-      do c += Pa(d), d = d["return"]; while (d);
+      do c += Pa(d), d = d.return; while (d);
       var e = c;
     } catch (f) {
       e = "\nError generating stack: " + f.message + "\n" + f.stack;
@@ -4795,7 +4725,7 @@ function requireReactDom_production_min() {
       var b;
       if (b = 13 === a.tag) b = a.memoizedState, b = null !== b ? null !== b.dehydrated ? true : false : true;
       if (b) return a;
-      a = a["return"];
+      a = a.return;
     } while (null !== a);
     return null;
   }
@@ -4828,7 +4758,7 @@ function requireReactDom_production_min() {
       if ("function" === typeof f && !aj(f) && void 0 === f.defaultProps && null === c.compare && void 0 === c.defaultProps) return b.tag = 15, b.type = f, bj(a, b, f, d, e);
       a = Rg(c.type, null, d, b, b.mode, e);
       a.ref = b.ref;
-      a["return"] = b;
+      a.return = b;
       return b.child = a;
     }
     f = a.child;
@@ -4841,7 +4771,7 @@ function requireReactDom_production_min() {
     b.flags |= 1;
     a = Pg(f, d);
     a.ref = b.ref;
-    a["return"] = b;
+    a.return = b;
     return b.child = a;
   }
   function bj(a, b, c, d, e) {
@@ -4907,7 +4837,7 @@ function requireReactDom_production_min() {
       g.props = h;
       var k = g.context,
         l = c.contextType;
-      "object" === _typeof(l) && null !== l ? l = eh(l) : (l = Zf(c) ? Xf : H.current, l = Yf(b, l));
+      "object" === typeof l && null !== l ? l = eh(l) : (l = Zf(c) ? Xf : H.current, l = Yf(b, l));
       var m = c.getDerivedStateFromProps,
         q = "function" === typeof m || "function" === typeof g.getSnapshotBeforeUpdate;
       q || "function" !== typeof g.UNSAFE_componentWillReceiveProps && "function" !== typeof g.componentWillReceiveProps || (h !== d || k !== l) && Hi(b, g, d, l);
@@ -4926,7 +4856,7 @@ function requireReactDom_production_min() {
       q = b.pendingProps;
       r = g.context;
       k = c.contextType;
-      "object" === _typeof(k) && null !== k ? k = eh(k) : (k = Zf(c) ? Xf : H.current, k = Yf(b, k));
+      "object" === typeof k && null !== k ? k = eh(k) : (k = Zf(c) ? Xf : H.current, k = Yf(b, k));
       var y = c.getDerivedStateFromProps;
       (m = "function" === typeof y || "function" === typeof g.getSnapshotBeforeUpdate) || "function" !== typeof g.UNSAFE_componentWillReceiveProps && "function" !== typeof g.componentWillReceiveProps || (h !== q || r !== k) && Hi(b, g, d, k);
       jh = false;
@@ -4993,7 +4923,7 @@ function requireReactDom_production_min() {
       return f ? (d = b.mode, f = b.child, g = {
         mode: "hidden",
         children: g
-      }, 0 === (d & 1) && null !== f ? (f.childLanes = 0, f.pendingProps = g) : f = pj(g, d, 0, null), a = Tg(a, d, c, null), f["return"] = b, a["return"] = b, f.sibling = a, b.child = f, b.child.memoizedState = nj(c), b.memoizedState = mj, a) : qj(b, g);
+      }, 0 === (d & 1) && null !== f ? (f.childLanes = 0, f.pendingProps = g) : f = pj(g, d, 0, null), a = Tg(a, d, c, null), f.return = b, a.return = b, f.sibling = a, b.child = f, b.child.memoizedState = nj(c), b.memoizedState = mj, a) : qj(b, g);
     }
     e = a.memoizedState;
     if (null !== e && (h = e.dehydrated, null !== h)) return rj(a, b, g, d, h, e, c);
@@ -5008,8 +4938,8 @@ function requireReactDom_production_min() {
       };
       0 === (g & 1) && b.child !== e ? (d = b.child, d.childLanes = 0, d.pendingProps = k, b.deletions = null) : (d = Pg(e, k), d.subtreeFlags = e.subtreeFlags & 14680064);
       null !== h ? f = Pg(h, f) : (f = Tg(f, g, c, null), f.flags |= 2);
-      f["return"] = b;
-      d["return"] = b;
+      f.return = b;
+      d.return = b;
       d.sibling = f;
       b.child = d;
       d = f;
@@ -5032,7 +4962,7 @@ function requireReactDom_production_min() {
       children: d.children
     });
     0 === (b.mode & 1) && (d.lanes = c);
-    d["return"] = b;
+    d.return = b;
     d.sibling = null;
     null !== a && (c = b.deletions, null === c ? (b.deletions = [a], b.flags |= 16) : c.push(a));
     b.child = d;
@@ -5044,7 +4974,7 @@ function requireReactDom_production_min() {
       mode: "visible",
       children: b
     }, a.mode, 0, null);
-    b["return"] = a;
+    b.return = a;
     return a.child = b;
   }
   function sj(a, b, c, d) {
@@ -5067,8 +4997,8 @@ function requireReactDom_production_min() {
       }, e, 0, null);
       f = Tg(f, e, g, null);
       f.flags |= 2;
-      d["return"] = b;
-      f["return"] = b;
+      d.return = b;
+      f.return = b;
       d.sibling = f;
       b.child = d;
       0 !== (b.mode & 1) && Ug(b, a.child, null, g);
@@ -5147,7 +5077,7 @@ function requireReactDom_production_min() {
     a.lanes |= b;
     var d = a.alternate;
     null !== d && (d.lanes |= b);
-    bh(a["return"], b, c);
+    bh(a.return, b, c);
   }
   function wj(a, b, c, d, e) {
     var f = a.memoizedState;
@@ -5169,16 +5099,16 @@ function requireReactDom_production_min() {
     if (0 !== (d & 2)) d = d & 1 | 2, b.flags |= 128;else {
       if (null !== a && 0 !== (a.flags & 128)) a: for (a = b.child; null !== a;) {
         if (13 === a.tag) null !== a.memoizedState && vj(a, c, b);else if (19 === a.tag) vj(a, c, b);else if (null !== a.child) {
-          a.child["return"] = a;
+          a.child.return = a;
           a = a.child;
           continue;
         }
         if (a === b) break a;
         for (; null === a.sibling;) {
-          if (null === a["return"] || a["return"] === b) break a;
-          a = a["return"];
+          if (null === a.return || a.return === b) break a;
+          a = a.return;
         }
-        a.sibling["return"] = a["return"];
+        a.sibling.return = a.return;
         a = a.sibling;
       }
       d &= 1;
@@ -5228,7 +5158,7 @@ function requireReactDom_production_min() {
       a = b.child;
       c = Pg(a, a.pendingProps);
       b.child = c;
-      for (c["return"] = b; null !== a.sibling;) a = a.sibling, c = c.sibling = Pg(a, a.pendingProps), c["return"] = b;
+      for (c.return = b; null !== a.sibling;) a = a.sibling, c = c.sibling = Pg(a, a.pendingProps), c.return = b;
       c.sibling = null;
     }
     return b.child;
@@ -5285,16 +5215,16 @@ function requireReactDom_production_min() {
   zj = function zj(a, b) {
     for (var c = b.child; null !== c;) {
       if (5 === c.tag || 6 === c.tag) a.appendChild(c.stateNode);else if (4 !== c.tag && null !== c.child) {
-        c.child["return"] = c;
+        c.child.return = c;
         c = c.child;
         continue;
       }
       if (c === b) break;
       for (; null === c.sibling;) {
-        if (null === c["return"] || c["return"] === b) return;
-        c = c["return"];
+        if (null === c.return || c.return === b) return;
+        c = c.return;
       }
-      c.sibling["return"] = c["return"];
+      c.sibling.return = c.return;
       c = c.sibling;
     }
   };
@@ -5370,7 +5300,7 @@ function requireReactDom_production_min() {
     var b = null !== a.alternate && a.alternate.child === a.child,
       c = 0,
       d = 0;
-    if (b) for (var e = a.child; null !== e;) c |= e.lanes | e.childLanes, d |= e.subtreeFlags & 14680064, d |= e.flags & 14680064, e["return"] = a, e = e.sibling;else for (e = a.child; null !== e;) c |= e.lanes | e.childLanes, d |= e.subtreeFlags, d |= e.flags, e["return"] = a, e = e.sibling;
+    if (b) for (var e = a.child; null !== e;) c |= e.lanes | e.childLanes, d |= e.subtreeFlags & 14680064, d |= e.flags & 14680064, e.return = a, e = e.sibling;else for (e = a.child; null !== e;) c |= e.lanes | e.childLanes, d |= e.subtreeFlags, d |= e.flags, e.return = a, e = e.sibling;
     a.subtreeFlags |= d;
     a.childLanes = c;
     return b;
@@ -5814,7 +5744,7 @@ function requireReactDom_production_min() {
       selectionRange: c
     };
     dd = false;
-    for (V = b; null !== V;) if (b = V, a = b.child, 0 !== (b.subtreeFlags & 1028) && null !== a) a["return"] = b, V = a;else for (; null !== V;) {
+    for (V = b; null !== V;) if (b = V, a = b.child, 0 !== (b.subtreeFlags & 1028) && null !== a) a.return = b, V = a;else for (; null !== V;) {
       b = V;
       try {
         var n = b.alternate;
@@ -5845,15 +5775,15 @@ function requireReactDom_production_min() {
             throw Error(p(163));
         }
       } catch (F) {
-        W(b, b["return"], F);
+        W(b, b.return, F);
       }
       a = b.sibling;
       if (null !== a) {
-        a["return"] = b["return"];
+        a.return = b.return;
         V = a;
         break;
       }
-      V = b["return"];
+      V = b.return;
     }
     n = Nj;
     Nj = false;
@@ -5910,7 +5840,7 @@ function requireReactDom_production_min() {
     a.sibling = null;
     5 === a.tag && (b = a.stateNode, null !== b && (delete b[Of], delete b[Pf], delete b[of], delete b[Qf], delete b[Rf]));
     a.stateNode = null;
-    a["return"] = null;
+    a.return = null;
     a.dependencies = null;
     a.memoizedProps = null;
     a.memoizedState = null;
@@ -5924,13 +5854,13 @@ function requireReactDom_production_min() {
   function Uj(a) {
     a: for (;;) {
       for (; null === a.sibling;) {
-        if (null === a["return"] || Tj(a["return"])) return null;
-        a = a["return"];
+        if (null === a.return || Tj(a.return)) return null;
+        a = a.return;
       }
-      a.sibling["return"] = a["return"];
+      a.sibling.return = a.return;
       for (a = a.sibling; 5 !== a.tag && 6 !== a.tag && 18 !== a.tag;) {
         if (a.flags & 2) continue a;
-        if (null === a.child || 4 === a.tag) continue a;else a.child["return"] = a, a = a.child;
+        if (null === a.child || 4 === a.tag) continue a;else a.child.return = a, a = a.child;
       }
       if (!(a.flags & 2)) return a.stateNode;
     }
@@ -6045,15 +5975,15 @@ function requireReactDom_production_min() {
               Xj = true;
               break a;
           }
-          h = h["return"];
+          h = h.return;
         }
         if (null === X) throw Error(p(160));
         Zj(f, g, e);
         X = null;
         Xj = false;
         var k = e.alternate;
-        null !== k && (k["return"] = null);
-        e["return"] = null;
+        null !== k && (k.return = null);
+        e.return = null;
       } catch (l) {
         W(e, b, l);
       }
@@ -6072,32 +6002,32 @@ function requireReactDom_production_min() {
         ek(a);
         if (d & 4) {
           try {
-            Pj(3, a, a["return"]), Qj(3, a);
+            Pj(3, a, a.return), Qj(3, a);
           } catch (t) {
-            W(a, a["return"], t);
+            W(a, a.return, t);
           }
           try {
-            Pj(5, a, a["return"]);
+            Pj(5, a, a.return);
           } catch (t) {
-            W(a, a["return"], t);
+            W(a, a.return, t);
           }
         }
         break;
       case 1:
         ck(b, a);
         ek(a);
-        d & 512 && null !== c && Lj(c, c["return"]);
+        d & 512 && null !== c && Lj(c, c.return);
         break;
       case 5:
         ck(b, a);
         ek(a);
-        d & 512 && null !== c && Lj(c, c["return"]);
+        d & 512 && null !== c && Lj(c, c.return);
         if (a.flags & 32) {
           var e = a.stateNode;
           try {
             ob(e, "");
           } catch (t) {
-            W(a, a["return"], t);
+            W(a, a.return, t);
           }
         }
         if (d & 4 && (e = a.stateNode, null != e)) {
@@ -6130,7 +6060,7 @@ function requireReactDom_production_min() {
             }
             e[Pf] = f;
           } catch (t) {
-            W(a, a["return"], t);
+            W(a, a.return, t);
           }
         }
         break;
@@ -6144,7 +6074,7 @@ function requireReactDom_production_min() {
           try {
             e.nodeValue = f;
           } catch (t) {
-            W(a, a["return"], t);
+            W(a, a.return, t);
           }
         }
         break;
@@ -6154,7 +6084,7 @@ function requireReactDom_production_min() {
         if (d & 4 && null !== c && c.memoizedState.isDehydrated) try {
           bd(b.containerInfo);
         } catch (t) {
-          W(a, a["return"], t);
+          W(a, a.return, t);
         }
         break;
       case 4:
@@ -6183,14 +6113,14 @@ function requireReactDom_production_min() {
                 case 11:
                 case 14:
                 case 15:
-                  Pj(4, r, r["return"]);
+                  Pj(4, r, r.return);
                   break;
                 case 1:
-                  Lj(r, r["return"]);
+                  Lj(r, r.return);
                   var n = r.stateNode;
                   if ("function" === typeof n.componentWillUnmount) {
                     d = r;
-                    c = r["return"];
+                    c = r.return;
                     try {
                       b = d, n.props = b.memoizedProps, n.state = b.memoizedState, n.componentWillUnmount();
                     } catch (t) {
@@ -6199,7 +6129,7 @@ function requireReactDom_production_min() {
                   }
                   break;
                 case 5:
-                  Lj(r, r["return"]);
+                  Lj(r, r.return);
                   break;
                 case 22:
                   if (null !== r.memoizedState) {
@@ -6207,7 +6137,7 @@ function requireReactDom_production_min() {
                     continue;
                   }
               }
-              null !== y ? (y["return"] = r, V = y) : gk(q);
+              null !== y ? (y.return = r, V = y) : gk(q);
             }
             m = m.sibling;
           }
@@ -6218,28 +6148,28 @@ function requireReactDom_production_min() {
                 try {
                   e = q.stateNode, l ? (f = e.style, "function" === typeof f.setProperty ? f.setProperty("display", "none", "important") : f.display = "none") : (h = q.stateNode, k = q.memoizedProps.style, g = void 0 !== k && null !== k && k.hasOwnProperty("display") ? k.display : null, h.style.display = rb("display", g));
                 } catch (t) {
-                  W(a, a["return"], t);
+                  W(a, a.return, t);
                 }
               }
             } else if (6 === q.tag) {
               if (null === m) try {
                 q.stateNode.nodeValue = l ? "" : q.memoizedProps;
               } catch (t) {
-                W(a, a["return"], t);
+                W(a, a.return, t);
               }
             } else if ((22 !== q.tag && 23 !== q.tag || null === q.memoizedState || q === a) && null !== q.child) {
-              q.child["return"] = q;
+              q.child.return = q;
               q = q.child;
               continue;
             }
             if (q === a) break a;
             for (; null === q.sibling;) {
-              if (null === q["return"] || q["return"] === a) break a;
+              if (null === q.return || q.return === a) break a;
               m === q && (m = null);
-              q = q["return"];
+              q = q.return;
             }
             m === q && (m = null);
-            q.sibling["return"] = q["return"];
+            q.sibling.return = q.return;
             q = q.sibling;
           }
         }
@@ -6260,12 +6190,12 @@ function requireReactDom_production_min() {
     if (b & 2) {
       try {
         a: {
-          for (var c = a["return"]; null !== c;) {
+          for (var c = a.return; null !== c;) {
             if (Tj(c)) {
               var d = c;
               break a;
             }
-            c = c["return"];
+            c = c.return;
           }
           throw Error(p(160));
         }
@@ -6286,7 +6216,7 @@ function requireReactDom_production_min() {
             throw Error(p(161));
         }
       } catch (k) {
-        W(a, a["return"], k);
+        W(a, a.return, k);
       }
       a.flags &= -3;
     }
@@ -6308,14 +6238,14 @@ function requireReactDom_production_min() {
           h = Jj;
           var l = U;
           Jj = g;
-          if ((U = k) && !l) for (V = e; null !== V;) g = V, k = g.child, 22 === g.tag && null !== g.memoizedState ? jk(e) : null !== k ? (k["return"] = g, V = k) : jk(e);
+          if ((U = k) && !l) for (V = e; null !== V;) g = V, k = g.child, 22 === g.tag && null !== g.memoizedState ? jk(e) : null !== k ? (k.return = g, V = k) : jk(e);
           for (; null !== f;) V = f, ik(f), f = f.sibling;
           V = e;
           Jj = h;
           U = l;
         }
         kk(a);
-      } else 0 !== (e.subtreeFlags & 8772) && null !== f ? (f["return"] = e, V = f) : kk(a);
+      } else 0 !== (e.subtreeFlags & 8772) && null !== f ? (f.return = e, V = f) : kk(a);
     }
   }
   function kk(a) {
@@ -6400,7 +6330,7 @@ function requireReactDom_production_min() {
           }
           U || b.flags & 512 && Rj(b);
         } catch (r) {
-          W(b, b["return"], r);
+          W(b, b.return, r);
         }
       }
       if (b === a) {
@@ -6409,11 +6339,11 @@ function requireReactDom_production_min() {
       }
       c = b.sibling;
       if (null !== c) {
-        c["return"] = b["return"];
+        c.return = b.return;
         V = c;
         break;
       }
-      V = b["return"];
+      V = b.return;
     }
   }
   function gk(a) {
@@ -6425,11 +6355,11 @@ function requireReactDom_production_min() {
       }
       var c = b.sibling;
       if (null !== c) {
-        c["return"] = b["return"];
+        c.return = b.return;
         V = c;
         break;
       }
-      V = b["return"];
+      V = b.return;
     }
   }
   function jk(a) {
@@ -6440,7 +6370,7 @@ function requireReactDom_production_min() {
           case 0:
           case 11:
           case 15:
-            var c = b["return"];
+            var c = b.return;
             try {
               Qj(4, b);
             } catch (k) {
@@ -6450,14 +6380,14 @@ function requireReactDom_production_min() {
           case 1:
             var d = b.stateNode;
             if ("function" === typeof d.componentDidMount) {
-              var e = b["return"];
+              var e = b.return;
               try {
                 d.componentDidMount();
               } catch (k) {
                 W(b, e, k);
               }
             }
-            var f = b["return"];
+            var f = b.return;
             try {
               Rj(b);
             } catch (k) {
@@ -6465,7 +6395,7 @@ function requireReactDom_production_min() {
             }
             break;
           case 5:
-            var g = b["return"];
+            var g = b.return;
             try {
               Rj(b);
             } catch (k) {
@@ -6473,7 +6403,7 @@ function requireReactDom_production_min() {
             }
         }
       } catch (k) {
-        W(b, b["return"], k);
+        W(b, b.return, k);
       }
       if (b === a) {
         V = null;
@@ -6481,11 +6411,11 @@ function requireReactDom_production_min() {
       }
       var h = b.sibling;
       if (null !== h) {
-        h["return"] = b["return"];
+        h.return = b.return;
         V = h;
         break;
       }
-      V = b["return"];
+      V = b.return;
     }
   }
   var lk = Math.ceil,
@@ -6679,13 +6609,13 @@ function requireReactDom_production_min() {
         }
       }
       c = b.child;
-      if (b.subtreeFlags & 16384 && null !== c) c["return"] = b, b = c;else {
+      if (b.subtreeFlags & 16384 && null !== c) c.return = b, b = c;else {
         if (b === a) break;
         for (; null === b.sibling;) {
-          if (null === b["return"] || b["return"] === a) return true;
-          b = b["return"];
+          if (null === b.return || b.return === a) return true;
+          b = b.return;
         }
-        b.sibling["return"] = b["return"];
+        b.sibling.return = b.return;
         b = b.sibling;
       }
     }
@@ -6751,7 +6681,7 @@ function requireReactDom_production_min() {
     a.finishedLanes = 0;
     var c = a.timeoutHandle;
     -1 !== c && (a.timeoutHandle = -1, Gf(c));
-    if (null !== Y) for (c = Y["return"]; null !== c;) {
+    if (null !== Y) for (c = Y.return; null !== c;) {
       var d = c;
       wg(d);
       switch (d.tag) {
@@ -6784,7 +6714,7 @@ function requireReactDom_production_min() {
         case 23:
           Hj();
       }
-      c = c["return"];
+      c = c.return;
     }
     Q = a;
     Y = a = Pg(a.current, null);
@@ -6828,7 +6758,7 @@ function requireReactDom_production_min() {
         Jh = false;
         Kh = 0;
         nk.current = null;
-        if (null === c || null === c["return"]) {
+        if (null === c || null === c.return) {
           T = 1;
           pk = b;
           Y = null;
@@ -6836,12 +6766,12 @@ function requireReactDom_production_min() {
         }
         a: {
           var f = a,
-            g = c["return"],
+            g = c.return,
             h = c,
             k = b;
           b = Z;
           h.flags |= 32768;
-          if (null !== k && "object" === _typeof(k) && "function" === typeof k.then) {
+          if (null !== k && "object" === typeof k && "function" === typeof k.then) {
             var l = k,
               m = h,
               q = m.tag;
@@ -6906,13 +6836,13 @@ function requireReactDom_production_min() {
                   break a;
                 }
             }
-            f = f["return"];
+            f = f.return;
           } while (null !== f);
         }
         Sk(c);
       } catch (na) {
         b = na;
-        Y === c && null !== c && (Y = c = c["return"]);
+        Y === c && null !== c && (Y = c = c.return);
         continue;
       }
       break;
@@ -6962,7 +6892,7 @@ function requireReactDom_production_min() {
     var b = a;
     do {
       var c = b.alternate;
-      a = b["return"];
+      a = b.return;
       if (0 === (b.flags & 32768)) {
         if (c = Ej(c, b, fj), null !== c) {
           Y = c;
@@ -7087,17 +7017,17 @@ function requireReactDom_production_min() {
                         Pj(8, m, f);
                     }
                     var q = m.child;
-                    if (null !== q) q["return"] = m, V = q;else for (; null !== V;) {
+                    if (null !== q) q.return = m, V = q;else for (; null !== V;) {
                       m = V;
                       var r = m.sibling,
-                        y = m["return"];
+                        y = m.return;
                       Sj(m);
                       if (m === l) {
                         V = null;
                         break;
                       }
                       if (null !== r) {
-                        r["return"] = y;
+                        r.return = y;
                         V = r;
                         break;
                       }
@@ -7120,28 +7050,28 @@ function requireReactDom_production_min() {
                 V = f;
               }
             }
-            if (0 !== (f.subtreeFlags & 2064) && null !== g) g["return"] = f, V = g;else b: for (; null !== V;) {
+            if (0 !== (f.subtreeFlags & 2064) && null !== g) g.return = f, V = g;else b: for (; null !== V;) {
               f = V;
               if (0 !== (f.flags & 2048)) switch (f.tag) {
                 case 0:
                 case 11:
                 case 15:
-                  Pj(9, f, f["return"]);
+                  Pj(9, f, f.return);
               }
               var x = f.sibling;
               if (null !== x) {
-                x["return"] = f["return"];
+                x.return = f.return;
                 V = x;
                 break b;
               }
-              V = f["return"];
+              V = f.return;
             }
           }
           var w = a.current;
           for (V = w; null !== V;) {
             g = V;
             var u = g.child;
-            if (0 !== (g.subtreeFlags & 2064) && null !== u) u["return"] = g, V = u;else b: for (g = w; null !== V;) {
+            if (0 !== (g.subtreeFlags & 2064) && null !== u) u.return = g, V = u;else b: for (g = w; null !== V;) {
               h = V;
               if (0 !== (h.flags & 2048)) try {
                 switch (h.tag) {
@@ -7151,7 +7081,7 @@ function requireReactDom_production_min() {
                     Qj(9, h);
                 }
               } catch (na) {
-                W(h, h["return"], na);
+                W(h, h.return, na);
               }
               if (h === g) {
                 V = null;
@@ -7159,11 +7089,11 @@ function requireReactDom_production_min() {
               }
               var F = h.sibling;
               if (null !== F) {
-                F["return"] = h["return"];
+                F.return = h.return;
                 V = F;
                 break b;
               }
-              V = h["return"];
+              V = h.return;
             }
           }
           K = e;
@@ -7203,12 +7133,12 @@ function requireReactDom_production_min() {
           break;
         }
       }
-      b = b["return"];
+      b = b.return;
     }
   }
   function Ti(a, b, c) {
     var d = a.pingCache;
-    null !== d && d["delete"](b);
+    null !== d && d.delete(b);
     b = R();
     a.pingedLanes |= a.suspendedLanes & c;
     Q === a && (Z & c) === c && (4 === T || 3 === T && (Z & 130023424) === Z && 500 > B() - fk ? Kk(a, 0) : rk |= c);
@@ -7240,7 +7170,7 @@ function requireReactDom_production_min() {
       default:
         throw Error(p(314));
     }
-    null !== d && d["delete"](b);
+    null !== d && d.delete(b);
     Yk(a, c);
   }
   var Vk;
@@ -7262,7 +7192,7 @@ function requireReactDom_production_min() {
         e = Nh(null, b, d, a, e, c);
         var f = Sh();
         b.flags |= 1;
-        "object" === _typeof(e) && null !== e && "function" === typeof e.render && void 0 === e.$$typeof ? (b.tag = 1, b.memoizedState = null, b.updateQueue = null, Zf(d) ? (f = true, cg(b)) : f = false, b.memoizedState = null !== e.state && void 0 !== e.state ? e.state : null, kh(b), e.updater = Ei, b.stateNode = e, e._reactInternals = b, Ii(b, d, a, c), b = jj(null, b, d, true, f, c)) : (b.tag = 0, I && f && vg(b), Xi(null, b, e, c), b = b.child);
+        "object" === typeof e && null !== e && "function" === typeof e.render && void 0 === e.$$typeof ? (b.tag = 1, b.memoizedState = null, b.updateQueue = null, Zf(d) ? (f = true, cg(b)) : f = false, b.memoizedState = null !== e.state && void 0 !== e.state ? e.state : null, kh(b), e.updater = Ei, b.stateNode = e, e._reactInternals = b, Ii(b, d, a, c), b = jj(null, b, d, true, f, c)) : (b.tag = 0, I && f && vg(b), Xi(null, b, e, c), b = b.child);
         return b;
       case 16:
         d = b.elementType;
@@ -7362,7 +7292,7 @@ function requireReactDom_production_min() {
               b = Zi(a, b, c);
               break a;
             }
-          } else for (f = b.child, null !== f && (f["return"] = b); null !== f;) {
+          } else for (f = b.child, null !== f && (f.return = b); null !== f;) {
             var h = f.dependencies;
             if (null !== h) {
               g = f.child;
@@ -7382,14 +7312,14 @@ function requireReactDom_production_min() {
                   f.lanes |= c;
                   k = f.alternate;
                   null !== k && (k.lanes |= c);
-                  bh(f["return"], c, b);
+                  bh(f.return, c, b);
                   h.lanes |= c;
                   break;
                 }
                 k = k.next;
               }
             } else if (10 === f.tag) g = f.type === b.type ? null : f.child;else if (18 === f.tag) {
-              g = f["return"];
+              g = f.return;
               if (null === g) throw Error(p(341));
               g.lanes |= c;
               h = g.alternate;
@@ -7397,18 +7327,18 @@ function requireReactDom_production_min() {
               bh(g, c, b);
               g = f.sibling;
             } else g = f.child;
-            if (null !== g) g["return"] = f;else for (g = f; null !== g;) {
+            if (null !== g) g.return = f;else for (g = f; null !== g;) {
               if (g === b) {
                 g = null;
                 break;
               }
               f = g.sibling;
               if (null !== f) {
-                f["return"] = g["return"];
+                f.return = g.return;
                 g = f;
                 break;
               }
-              g = g["return"];
+              g = g.return;
             }
             f = g;
           }
@@ -7437,7 +7367,7 @@ function requireReactDom_production_min() {
   function $k(a, b, c, d) {
     this.tag = a;
     this.key = c;
-    this.sibling = this.child = this["return"] = this.stateNode = this.type = this.elementType = null;
+    this.sibling = this.child = this.return = this.stateNode = this.type = this.elementType = null;
     this.index = 0;
     this.ref = null;
     this.pendingProps = b;
@@ -7503,7 +7433,7 @@ function requireReactDom_production_min() {
       case Ia:
         return pj(c, e, f, b);
       default:
-        if ("object" === _typeof(a) && null !== a) switch (a.$$typeof) {
+        if ("object" === typeof a && null !== a) switch (a.$$typeof) {
           case Ba:
             g = 10;
             break a;
@@ -7521,7 +7451,7 @@ function requireReactDom_production_min() {
             d = null;
             break a;
         }
-        throw Error(p(130, null == a ? a : _typeof(a), ""));
+        throw Error(p(130, null == a ? a : typeof a, ""));
     }
     b = Bg(g, c, b, e);
     b.elementType = a;
@@ -7616,7 +7546,7 @@ function requireReactDom_production_min() {
               break a;
             }
         }
-        b = b["return"];
+        b = b.return;
       } while (null !== b);
       throw Error(p(171));
     }
@@ -8100,7 +8030,7 @@ function getProgressInfo(status) {
       {
         var pct = status.total > 0 ? clamp(100 * status.current / status.total, 0, 100) : 0;
         return {
-          text: "Baixando: ".concat(status.current, "/").concat(status.total, " patches (").concat(formatSpeed(status.speed), ")"),
+          text: "Baixando: " + status.current + "/" + status.total + " patches (" + formatSpeed(status.speed) + ")",
           percent: pct,
           variant: "default"
         };
@@ -8109,7 +8039,7 @@ function getProgressInfo(status) {
       {
         var _pct = status.total > 0 ? clamp(100 * status.current / status.total, 0, 100) : 0;
         return {
-          text: "Instalando: ".concat(status.current, "/").concat(status.total, " patches..."),
+          text: "Instalando: " + status.current + "/" + status.total + " patches...",
           percent: _pct,
           variant: "default"
         };
@@ -8122,7 +8052,7 @@ function getProgressInfo(status) {
       };
     case "error":
       return {
-        text: "Erro: ".concat(status.message),
+        text: "Erro: " + status.message,
         percent: 100,
         variant: "error"
       };
@@ -8146,7 +8076,7 @@ function Footer(_ref2) {
   var isReady = status.state === "ready";
   var isBusy = status.state === "downloading" || status.state === "installing" || status.state === "checking";
   var barFill = {
-    "default": "bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300",
+    default: "bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300",
     ready: "bg-gradient-to-r from-nerfas-green to-emerald-400",
     error: "bg-gradient-to-r from-red-400 to-red-500"
   };
@@ -8167,9 +8097,9 @@ function Footer(_ref2) {
         children: /* @__PURE__ */jsxRuntimeExports.jsx("div", {
           className: "w-full h-7 bg-[#1a0a2e] rounded-md overflow-hidden border-2 border-white/20 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]",
           children: /* @__PURE__ */jsxRuntimeExports.jsxs("div", {
-            className: "relative h-full transition-all duration-300 ease-out ".concat(barFill[variant]),
+            className: "relative h-full transition-all duration-300 ease-out " + barFill[variant],
             style: {
-              width: "".concat(percent, "%")
+              width: percent + "%"
             },
             children: [isBusy && /* @__PURE__ */jsxRuntimeExports.jsx("div", {
               className: "absolute inset-0 progress-stripes progress-shimmer"
@@ -8183,7 +8113,7 @@ function Footer(_ref2) {
       }), /* @__PURE__ */jsxRuntimeExports.jsx("button", {
         disabled: isBusy,
         onClick: onRepair,
-        className: "shrink-0 w-9 h-9 flex items-center justify-center rounded-lg border transition-all\n            ".concat(isBusy ? "bg-white/5 border-white/10 text-white/30 cursor-not-allowed" : "bg-white/10 border-white/20 text-white/70 hover:bg-amber-500/20 hover:border-amber-400/40 hover:text-amber-300 cursor-pointer"),
+        className: "shrink-0 w-9 h-9 flex items-center justify-center rounded-lg border transition-all\n            " + (isBusy ? "bg-white/5 border-white/10 text-white/30 cursor-not-allowed" : "bg-white/10 border-white/20 text-white/70 hover:bg-amber-500/20 hover:border-amber-400/40 hover:text-amber-300 cursor-pointer"),
         title: "Reparar — re-baixar todos os arquivos",
         "aria-label": "Reparar",
         children: /* @__PURE__ */jsxRuntimeExports.jsxs("svg", {
@@ -8230,7 +8160,7 @@ function Footer(_ref2) {
       }), /* @__PURE__ */jsxRuntimeExports.jsx("button", {
         disabled: !isReady,
         onClick: onPlay,
-        className: "\n            shrink-0 w-[150px] h-11 rounded-xl text-lg font-black tracking-widest uppercase text-white\n            transition-all duration-200\n            ".concat(isReady ? "bg-gradient-to-b from-nerfas-green to-nerfas-green-dark cursor-pointer hover:-translate-y-0.5 active:translate-y-0 btn-glow-pulse border-2 border-green-300/40" : "bg-gradient-to-b from-gray-500 to-gray-600 opacity-60 cursor-not-allowed border-2 border-white/10", "\n          "),
+        className: "\n            shrink-0 w-[150px] h-11 rounded-xl text-lg font-black tracking-widest uppercase text-white\n            transition-all duration-200\n            " + (isReady ? "bg-gradient-to-b from-nerfas-green to-nerfas-green-dark cursor-pointer hover:-translate-y-0.5 active:translate-y-0 btn-glow-pulse border-2 border-green-300/40" : "bg-gradient-to-b from-gray-500 to-gray-600 opacity-60 cursor-not-allowed border-2 border-white/10") + "\n          ",
         children: "JOGAR"
       })]
     }), /* @__PURE__ */jsxRuntimeExports.jsx("p", {
@@ -8245,19 +8175,18 @@ function invokeExternal(cmd) {
     if (typeof external !== "undefined") {
       external.invoke(cmd);
     } else {
-      console.log("[mock] external.invoke('".concat(cmd, "')"));
+      console.log("[mock] external.invoke('" + cmd + "')");
     }
   } catch (e) {
-    console.log("[mock] external.invoke('".concat(cmd, "')"));
+    console.log("[mock] external.invoke('" + cmd + "')");
   }
 }
 function App() {
   var _reactExports$useStat = reactExports.useState({
       state: "checking"
     }),
-    _reactExports$useStat2 = _slicedToArray(_reactExports$useStat, 2),
-    status = _reactExports$useStat2[0],
-    setStatus = _reactExports$useStat2[1];
+    status = _reactExports$useStat[0],
+    setStatus = _reactExports$useStat[1];
   var handlePlay = reactExports.useCallback(function () {
     return invokeExternal("play");
   }, []);
