@@ -39,3 +39,5 @@
 38 nerfasro_20260304_013618_b51f4c3a_grf.thor
 39 nerfasro_20260304_014931_13c5e1db_disk.thor
 40 nerfasro_20260304_014931_13c5e1db_grf.thor
+41 nerfasro_20260304_020315_d01dfcc3_disk.thor
+42 nerfasro_20260304_020315_d01dfcc3_grf.thor
