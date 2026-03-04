@@ -430,10 +430,6 @@
     gap: 0.25rem;
   }
 
-  .gap-1\.5 {
-    gap: 0.375rem;
-  }
-
   .gap-2 {
     gap: 0.5rem;
   }
@@ -566,20 +562,12 @@
   
 
   .bg-gradient-to-b {
-    background-image: linear-gradient(to right in oklab, transparent 0%, transparent 50%, rgb(251, 44, 54) 100%);
+    background-image: linear-gradient(to right in oklab, rgb(255, 100, 103) 0%, rgb(81, 162, 255) 50%, rgb(251, 44, 54) 100%);
   }
 
   .bg-gradient-to-r {
-    background-image: linear-gradient(to right in oklab, transparent 0%, transparent 50%, rgb(251, 44, 54) 100%);
+    background-image: linear-gradient(to right in oklab, rgb(255, 100, 103) 0%, rgb(81, 162, 255) 50%, rgb(251, 44, 54) 100%);
   }
-
-  .to-black\/
-
-  
-    .to-black\/
-  
-
-  .to-black\/
 
   .p-4 {
     padding: 1rem;
@@ -747,10 +735,6 @@
 
   .opacity-60 {
     opacity: .6;
-  }
-
-  .shadow-\[0_0_8px_rgba\(74\,222\,80\,0\.6\)\] {
-    box-shadow: 0 0 transparent, 0 0 transparent, 0 0 transparent, 0 0 transparent, 0 0 8px initial;
   }
 
   .shadow-\[inset_0_1px_0_rgba\(255\,255\,255\,0\.3\)\] {
@@ -9073,10 +9057,10 @@ function Footer(_ref2) {
     variant = _getProgressInfo.variant;
   var isReady = status.state === "ready";
   var isBusy = status.state === "downloading" || status.state === "installing" || status.state === "checking";
-  var barFill = {
-    default: "bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300",
-    ready: "bg-gradient-to-r from-nerfas-green to-emerald-400",
-    error: "bg-gradient-to-r from-red-400 to-red-500"
+  var barFillStyle = {
+    default: "linear-gradient(to right, #22d3ee, #60a5fa, #67e8f9)",
+    ready: "linear-gradient(to right, #4ade50, #34d399)",
+    error: "linear-gradient(to right, #f87171, #ef4444)"
   };
   return /* @__PURE__ */jsxRuntimeExports.jsxs("footer", {
     className: "px-6 py-3.5 flex flex-col gap-2",
@@ -9087,7 +9071,7 @@ function Footer(_ref2) {
     children: [/* @__PURE__ */jsxRuntimeExports.jsxs("div", {
       className: "flex items-center min-h-[14px]",
       children: [/* @__PURE__ */jsxRuntimeExports.jsx("p", {
-        className: "text-[11px] text-white/80 truncate flex-1 text-center drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]",
+        className: "text-[11px] text-white/80 truncate flex-1 text-center",
         title: text,
         children: text
       }), /* @__PURE__ */jsxRuntimeExports.jsx("span", {
@@ -9101,9 +9085,10 @@ function Footer(_ref2) {
         children: /* @__PURE__ */jsxRuntimeExports.jsx("div", {
           className: "w-full h-7 bg-[#1a0a2e] rounded-md overflow-hidden border-2 border-white/20 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]",
           children: /* @__PURE__ */jsxRuntimeExports.jsxs("div", {
-            className: "relative h-full transition-all duration-300 ease-out " + barFill[variant],
+            className: "relative h-full transition-all duration-300 ease-out",
             style: {
-              width: percent + "%"
+              width: percent + "%",
+              background: barFillStyle[variant]
             },
             children: [isBusy && /* @__PURE__ */jsxRuntimeExports.jsx("div", {
               className: "absolute inset-0 progress-stripes progress-shimmer"
@@ -9164,7 +9149,13 @@ function Footer(_ref2) {
       }), /* @__PURE__ */jsxRuntimeExports.jsx("button", {
         disabled: !isReady,
         onClick: onPlay,
-        className: "\n            shrink-0 w-[150px] h-11 rounded-xl text-lg font-black tracking-widest uppercase text-white\n            transition-all duration-200\n            " + (isReady ? "bg-gradient-to-b from-nerfas-green to-nerfas-green-dark cursor-pointer hover:-translate-y-0.5 active:translate-y-0 btn-glow-pulse border-2 border-green-300/40" : "bg-gradient-to-b from-gray-500 to-gray-600 opacity-60 cursor-not-allowed border-2 border-white/10") + "\n          ",
+        className: "shrink-0 w-[150px] h-11 rounded-xl text-lg font-black tracking-widest uppercase text-white",
+        style: {
+          background: isReady ? "linear-gradient(to bottom, #4ade50, #22c55e)" : "linear-gradient(to bottom, #6b7280, #4b5563)",
+          border: isReady ? "2px solid rgba(134, 239, 172, 0.4)" : "2px solid rgba(255, 255, 255, 0.1)",
+          opacity: isReady ? 1 : 0.6,
+          cursor: isReady ? "pointer" : "not-allowed"
+        },
         children: "JOGAR"
       })]
     })]
