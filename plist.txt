@@ -47,3 +47,5 @@
 46 nerfasro_20260304_021301_c02e643e_grf.thor
 47 nerfasro_20260304_021925_f8d68e93_disk.thor
 48 nerfasro_20260304_021925_f8d68e93_grf.thor
+49 nerfasro_20260304_023131_f1d84ac1_disk.thor
+50 nerfasro_20260304_023131_f1d84ac1_grf.thor
