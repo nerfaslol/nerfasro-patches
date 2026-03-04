@@ -1,3 +1,5 @@
 // NerfasRO Patches
 1 nerfasro_20260304_023918_326f33a8_disk.thor
 2 nerfasro_20260304_023918_326f33a8_grf.thor
+3 nerfasro_20260304_025844_ba82a28e_disk.thor
+4 nerfasro_20260304_025844_ba82a28e_grf.thor
