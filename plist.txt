@@ -29,3 +29,5 @@
 28 nerfasro_20260303_221232_4162f538_grf.thor
 29 nerfasro_full_force_disk.thor
 30 nerfasro_full_force_grf.thor
+31 nerfasro_full_force_disk.thor
+32 nerfasro_full_force_grf.thor
