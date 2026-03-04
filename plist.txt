@@ -30,3 +30,5 @@
 29 nerfasro_20260304_081041_a41e6d7a_grf.thor
 30 nerfasro_20260304_082835_9429f730_disk.thor
 31 nerfasro_20260304_082835_9429f730_grf.thor
+32 nerfasro_20260304_100812_7cf78df5_disk.thor
+33 nerfasro_20260304_100812_7cf78df5_grf.thor
