@@ -33,3 +33,5 @@
 32 nerfasro_full_force_grf.thor
 33 nerfasro_20260304_004532_b7652e0e_grf.thor
 34 nerfasro_20260304_004951_4a539185_grf.thor
+35 nerfasro_20260304_012458_a3b3044f_disk.thor
+36 nerfasro_20260304_012458_a3b3044f_grf.thor
