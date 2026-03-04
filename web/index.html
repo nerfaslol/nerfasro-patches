@@ -491,16 +491,6 @@
     border-color: rgb(123, 241, 168);
   }
 
-  .border-green-300\/40 {
-    border-color: rgba(123, 241, 168, 0.4);
-  }
-
-  
-    .border-green-300\/40 {
-      border-color: rgba(123, 241, 168, 0.4);
-    }
-  
-
   .border-white {
     border-color: #fff;
   }
@@ -562,11 +552,11 @@
   
 
   .bg-gradient-to-b {
-    background-image: linear-gradient(to right in oklab, rgb(255, 100, 103) 0%, rgb(81, 162, 255) 50%, rgb(251, 44, 54) 100%);
+    background-image: linear-gradient();
   }
 
   .bg-gradient-to-r {
-    background-image: linear-gradient(to right in oklab, rgb(255, 100, 103) 0%, rgb(81, 162, 255) 50%, rgb(251, 44, 54) 100%);
+    background-image: linear-gradient();
   }
 
   .p-4 {
@@ -762,10 +752,6 @@
     filter: blur(8px) initial initial initial initial initial initial initial drop-shadow(0 1px 2px initial);
   }
 
-  .drop-shadow-\[0_1px_2px_rgba\(0\,0\,0\,0\.4\)\] {
-    filter: blur(8px) initial initial initial initial initial initial initial drop-shadow(0 1px 2px initial);
-  }
-
   .drop-shadow-\[0_1px_3px_rgba\(0\,0\,0\,0\.3\)\] {
     filter: blur(8px) initial initial initial initial initial initial initial drop-shadow(0 1px 3px initial);
   }
@@ -808,10 +794,6 @@
   }
 
   @media (hover: hover) {
-    .hover\:-translate-y-0\.5:hover {
-      translate: 0 calc(.25rem * -.5);
-    }
-
     .hover\:border-amber-400\/40:hover {
       border-color: rgba(252, 187, 0, 0.4);
     }
@@ -849,10 +831,6 @@
     .hover\:text-white:hover {
       color: #fff;
     }
-  }
-
-  .active\:translate-y-0:active {
-    translate: 0 0rem;
   }
 
 @font-face {
@@ -8951,7 +8929,10 @@ function Header() {
       }), /* @__PURE__ */jsxRuntimeExports.jsxs("div", {
         className: "flex items-center pl-3 border-l border-white/20",
         children: [/* @__PURE__ */jsxRuntimeExports.jsx("div", {
-          className: "w-2 h-2 rounded-full bg-nerfas-green"
+          className: "w-2 h-2 rounded-full bg-nerfas-green",
+          style: {
+            marginRight: "4px"
+          }
         }), /* @__PURE__ */jsxRuntimeExports.jsx("span", {
           className: "text-nerfas-green font-bold",
           children: "Online"
@@ -9175,7 +9156,7 @@ function invokeExternal(cmd) {
 }
 function App() {
   var _reactExports$useStat = reactExports.useState({
-      state: "checking"
+      state: "ready"
     }),
     status = _reactExports$useStat[0],
     setStatus = _reactExports$useStat[1];
