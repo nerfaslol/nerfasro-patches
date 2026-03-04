@@ -22,3 +22,5 @@
 21 nerfasro_20260304_055624_675e3a30_grf.thor
 22 nerfasro_20260304_055923_89cd2c1a_disk.thor
 23 nerfasro_20260304_055923_89cd2c1a_grf.thor
+24 nerfasro_20260304_062146_3ae0b837_disk.thor
+25 nerfasro_20260304_062146_3ae0b837_grf.thor
