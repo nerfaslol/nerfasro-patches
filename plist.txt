@@ -1,3 +1,1 @@
 // NerfasRO Patches
-1 nerfasro_20260304_031026_cabc2b40_disk.thor
-2 nerfasro_20260304_031026_cabc2b40_grf.thor
