@@ -279,6 +279,26 @@
     right: .25rem;
   }
 
+  .top-0 {
+    top: 0rem;
+  }
+
+  .top-\[64px\] {
+    top: 64px;
+  }
+
+  .bottom-0 {
+    bottom: 0rem;
+  }
+
+  .bottom-\[96px\] {
+    bottom: 96px;
+  }
+
+  .left-0 {
+    left: 0rem;
+  }
+
   .z-10 {
     z-index: 10;
   }
@@ -9216,7 +9236,7 @@ function App() {
     children: [/* @__PURE__ */jsxRuntimeExports.jsx("div", {
       className: "absolute inset-0",
       style: {
-        backgroundImage: 'url("bg.jpg")',
+        backgroundImage: 'url("https://nerfaslol.github.io/nerfasro-patches/web/bg.jpg")',
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat"
@@ -9227,17 +9247,17 @@ function App() {
         background: "rgba(0, 0, 0, 0.35)"
       }
     }), /* @__PURE__ */jsxRuntimeExports.jsxs("div", {
-      className: "relative z-10 flex flex-col h-full",
+      className: "relative z-10 w-full h-full",
       children: [/* @__PURE__ */jsxRuntimeExports.jsx("div", {
-        className: "shrink-0",
+        className: "absolute top-0 left-0 w-full",
         children: /* @__PURE__ */jsxRuntimeExports.jsx(Header, {})
       }), /* @__PURE__ */jsxRuntimeExports.jsx("div", {
-        className: "flex-1 min-h-0",
+        className: "absolute top-[64px] bottom-[96px] left-0 w-full overflow-hidden",
         children: /* @__PURE__ */jsxRuntimeExports.jsx(NewsPanel, {
           items: NEWS
         })
       }), /* @__PURE__ */jsxRuntimeExports.jsx("div", {
-        className: "shrink-0",
+        className: "absolute bottom-0 left-0 w-full",
         children: /* @__PURE__ */jsxRuntimeExports.jsx(Footer, {
           status: status,
           onPlay: handlePlay,
