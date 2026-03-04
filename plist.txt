@@ -24,3 +24,5 @@
 23 nerfasro_20260304_055923_89cd2c1a_grf.thor
 24 nerfasro_20260304_062146_3ae0b837_disk.thor
 25 nerfasro_20260304_062146_3ae0b837_grf.thor
+26 nerfasro_20260304_075646_498f8ba5_disk.thor
+27 nerfasro_20260304_075646_498f8ba5_grf.thor
