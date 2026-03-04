@@ -9216,7 +9216,10 @@ function App() {
     children: [/* @__PURE__ */jsxRuntimeExports.jsx("div", {
       className: "absolute inset-0",
       style: {
-        background: "url(bg.jpg) center/cover no-repeat"
+        backgroundImage: 'url("bg.jpg")',
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat"
       }
     }), /* @__PURE__ */jsxRuntimeExports.jsx("div", {
       className: "absolute inset-0",
@@ -9225,16 +9228,22 @@ function App() {
       }
     }), /* @__PURE__ */jsxRuntimeExports.jsxs("div", {
       className: "relative z-10 flex flex-col h-full",
-      children: [/* @__PURE__ */jsxRuntimeExports.jsx(Header, {}), /* @__PURE__ */jsxRuntimeExports.jsx("div", {
+      children: [/* @__PURE__ */jsxRuntimeExports.jsx("div", {
+        className: "shrink-0",
+        children: /* @__PURE__ */jsxRuntimeExports.jsx(Header, {})
+      }), /* @__PURE__ */jsxRuntimeExports.jsx("div", {
         className: "flex-1 min-h-0",
         children: /* @__PURE__ */jsxRuntimeExports.jsx(NewsPanel, {
           items: NEWS
         })
-      }), /* @__PURE__ */jsxRuntimeExports.jsx(Footer, {
-        status: status,
-        onPlay: handlePlay,
-        onSetup: handleSetup,
-        onRepair: handleRepair
+      }), /* @__PURE__ */jsxRuntimeExports.jsx("div", {
+        className: "shrink-0",
+        children: /* @__PURE__ */jsxRuntimeExports.jsx(Footer, {
+          status: status,
+          onPlay: handlePlay,
+          onSetup: handleSetup,
+          onRepair: handleRepair
+        })
       })]
     })]
   });
