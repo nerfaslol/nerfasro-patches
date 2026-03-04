@@ -39,3 +39,4 @@
 38 nerfasro_20260304_135048_14bf78cf_grf.thor
 39 nerfasro_20260304_135715_160a0585_grf.thor
 40 nerfasro_20260304_135947_ff22a3f6_grf.thor
+41 nerfasro_20260304_201707_71a2a728_disk.thor
