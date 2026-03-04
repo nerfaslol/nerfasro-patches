@@ -8,3 +8,5 @@
 7 nerfasro_20260304_043621_253fcb9c_disk.thor
 8 nerfasro_20260304_045009_a3cb3b86_disk.thor
 9 nerfasro_20260304_045009_a3cb3b86_grf.thor
+10 nerfasro_20260304_045313_bf8a3f3b_disk.thor
+11 nerfasro_20260304_045313_bf8a3f3b_grf.thor
