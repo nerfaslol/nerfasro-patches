@@ -295,6 +295,10 @@
     margin-top: auto;
   }
 
+  .ml-2 {
+    margin-left: 0.5rem;
+  }
+
   .ml-auto {
     margin-left: auto;
   }
@@ -625,6 +629,10 @@
     line-height: 1.625;
   }
 
+  .text-\[9px\] {
+    font-size: 9px;
+  }
+
   .text-\[10px\] {
     font-size: 10px;
   }
@@ -680,6 +688,16 @@
   .text-white {
     color: #fff;
   }
+
+  .text-white\/25 {
+    color: rgba(255, 255, 255, 0.251);
+  }
+
+  
+    .text-white\/25 {
+      color: rgba(255, 255, 255, 0.25);
+    }
+  
 
   .text-white\/30 {
     color: rgba(255, 255, 255, 0.302);
@@ -869,14 +887,12 @@ html, body, #root {
 }
 
 .glass-light {
-  -webkit-backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.149);
+  background: #1e0f3c;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .glass-card {
-  -webkit-backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.1216);
+  background: #1a0d34;
   border: 1px solid rgba(255, 255, 255, 0.149);
 }
 
@@ -967,13 +983,15 @@ html, body, #root {
 .flex-col.gap-3 > *:first-child { margin-top: 0; }
 /* IE11: glass fallback (no backdrop-filter) */
 .glass-light {
-    background: rgba(30, 15, 60, 0.85) !important;
+    background: rgb(30, 15, 60) !important;
     backdrop-filter: none !important;
 }
 .glass-card {
-    background: rgba(30, 15, 60, 0.8) !important;
+    background: rgb(26, 13, 52) !important;
     backdrop-filter: none !important;
 }
+/* IE11: preserve margin-left: auto (gap fallback overrides it) */
+.ml-auto { margin-left: auto !important; }
 </style>
   </head>
   <body>
@@ -9062,10 +9080,16 @@ function Footer(_ref2) {
       background: "linear-gradient(135deg, #c850c0 0%, #8e24aa 30%, #6a1b9a 50%, #4a148c 70%, #311b92 100%)",
       borderTop: "1px solid rgba(255, 255, 255, 0.15)"
     },
-    children: [/* @__PURE__ */jsxRuntimeExports.jsx("p", {
-      className: "text-[11px] text-white/80 min-h-[14px] truncate text-center drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]",
-      title: text,
-      children: text
+    children: [/* @__PURE__ */jsxRuntimeExports.jsxs("div", {
+      className: "flex items-center min-h-[14px]",
+      children: [/* @__PURE__ */jsxRuntimeExports.jsx("p", {
+        className: "text-[11px] text-white/80 truncate flex-1 text-center drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]",
+        title: text,
+        children: text
+      }), /* @__PURE__ */jsxRuntimeExports.jsx("span", {
+        className: "text-[9px] text-white/25 shrink-0 ml-2",
+        children: "NerfasRO © 2026"
+      })]
     }), /* @__PURE__ */jsxRuntimeExports.jsxs("div", {
       className: "flex items-center gap-3",
       children: [/* @__PURE__ */jsxRuntimeExports.jsx("div", {
@@ -9139,9 +9163,6 @@ function Footer(_ref2) {
         className: "\n            shrink-0 w-[150px] h-11 rounded-xl text-lg font-black tracking-widest uppercase text-white\n            transition-all duration-200\n            " + (isReady ? "bg-gradient-to-b from-nerfas-green to-nerfas-green-dark cursor-pointer hover:-translate-y-0.5 active:translate-y-0 btn-glow-pulse border-2 border-green-300/40" : "bg-gradient-to-b from-gray-500 to-gray-600 opacity-60 cursor-not-allowed border-2 border-white/10") + "\n          ",
         children: "JOGAR"
       })]
-    }), /* @__PURE__ */jsxRuntimeExports.jsx("p", {
-      className: "text-[10px] text-white/30 text-center",
-      children: "NerfasRO © 2026"
     })]
   });
 }
