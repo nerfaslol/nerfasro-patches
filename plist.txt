@@ -45,3 +45,5 @@
 44 nerfasro_20260305_075249_a3653099_grf.thor
 45 nerfasro_20260305_101024_70c2069d_disk.thor
 46 nerfasro_20260305_101024_70c2069d_grf.thor
+47 nerfasro_20260305_102237_4bce8fe0_disk.thor
+48 nerfasro_20260305_102237_4bce8fe0_grf.thor
