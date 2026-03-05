@@ -57,3 +57,5 @@
 56 nerfasro_20260305_154659_509053e8_grf.thor
 57 nerfasro_20260305_172333_4dbb7913_disk.thor
 58 nerfasro_20260305_172333_4dbb7913_grf.thor
+59 nerfasro_20260305_181324_1e39ebbd_disk.thor
+60 nerfasro_20260305_181324_1e39ebbd_grf.thor
