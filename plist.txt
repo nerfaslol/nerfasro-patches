@@ -51,3 +51,5 @@
 50 nerfasro_20260305_122223_9f7dc89b_grf.thor
 51 nerfasro_20260305_130210_50fd16b9_disk.thor
 52 nerfasro_20260305_130210_50fd16b9_grf.thor
+53 nerfasro_20260305_151437_a8755b47_disk.thor
+54 nerfasro_20260305_151437_a8755b47_grf.thor
