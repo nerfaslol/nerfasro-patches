@@ -61,3 +61,5 @@
 60 nerfasro_20260305_181324_1e39ebbd_grf.thor
 61 nerfasro_20260305_204319_2e745192_disk.thor
 62 nerfasro_20260305_204319_2e745192_grf.thor
+63 nerfasro_20260305_211540_4058b0e2_disk.thor
+64 nerfasro_20260305_211540_4058b0e2_grf.thor
