@@ -75,3 +75,5 @@
 74 nerfasro_20260307_221821_3cd8c1bb_grf.thor
 75 nerfasro_20260307_221838_3cd8c1bb_disk.thor
 76 nerfasro_20260307_221838_3cd8c1bb_grf.thor
+77 nerfasro_20260307_221958_3cd8c1bb_disk.thor
+78 nerfasro_20260307_221958_3cd8c1bb_grf.thor
