@@ -65,3 +65,5 @@
 64 nerfasro_20260305_211540_4058b0e2_grf.thor
 65 nerfasro_20260307_221551_3cd8c1bb_disk.thor
 66 nerfasro_20260307_221551_3cd8c1bb_grf.thor
+67 nerfasro_20260307_221616_3cd8c1bb_disk.thor
+68 nerfasro_20260307_221616_3cd8c1bb_grf.thor
